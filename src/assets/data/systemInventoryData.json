@@ -1,64 +1,65 @@
 [
   {
-    "name": "Service Experience - Self Service",
-    "status": true,
-    "assessmentType": "System",
-    "assessmentSubType": "Conception",
-    "risk": "Low Risk",
-    "actionDate": "12 Jun 2021",
-    "completedDate": "Submitted on 23 jun 2020"
+    "name": "Patient Discharge",
+    "businessOwner": "Riikka Mercer",
+    "technicalOwner": "David Joumaa",
+    "riskLevel": "Low Risk",
+    "lodOne": "21 Oct 2020",
+    "lodTwo": "21 July 2021",
+    "lodThree": "11 Oct 2021"
   },
   {
-    "name": "Service Experience - Agent Assist",
-    "status": false,
-    "assessmentType": "Team Assessment",
-    "assessmentSubType": "Design",
-    "risk": "High Risk",
-    "actionDate": "12 Jun 2021"
+    "name": "Digital Claims Examiner",
+    "businessOwner": "Scout Dougherty",
+    "technicalOwner": "Alex Knipfer",
+    "riskLevel": "High Risk",
+    "lodOne": "20 Oct 2020",
+    "lodTwo": "21 July 2021",
+    "lodThree": "10 Oct 2021"
   },
   {
-    "name": "Service Experience - Intelligent Call Routing",
-    "status": true,
-    "assessmentType": "System",
-    "assessmentSubType": "Deployment",
-    "risk": "Medium Risk",
-    "actionDate": "12 Jun 2021",
-    "completedDate": "Submitted on 23 jun 2020"
+    "name": "Client Self Service",
+    "businessOwner": "Philip Loeffler",
+    "technicalOwner": "Alejandro Perea",
+    "riskLevel": "Medium Risk",
+    "lodOne": "10 Aug 2020",
+    "lodTwo": "11 July 2021",
+    "lodThree": "10 Oct 2021"
   },
   {
-    "name": "Sales Acceleration - Medicare",
-    "status": true,
-    "assessmentType": "System",
-    "assessmentSubType": "Conception",
-    "risk": "Low Risk",
-    "actionDate": "12 Jun 2021",
-    "completedDate": "Submitted on 23 jun 2020"
+    "name": "Increase Preventative Care",
+    "businessOwner": "Chris Ransdell",
+    "technicalOwner": "Abiraj Solanki",
+    "riskLevel": "Low Risk",
+    "lodOne": "23 jun 2020",
+    "lodTwo": "5 July 2021",
+    "lodThree": "2 Oct 2021"
   },
   {
-    "name": "Claims Transformation - Digital Claims Examiner",
-    "status": true,
-    "assessmentType": "System",
-    "assessmentSubType": "Conception",
-    "risk": "High Risk",
-    "actionDate": "12 Jun 2021",
-    "completedDate": "Submitted on 23 jun 2020"
+    "name": "Medicae Conversion",
+    "businessOwner": "Jason Carney",
+    "technicalOwner": "Aaron Dean",
+    "riskLevel": "High Risk",
+    "lodOne": "11 Jun 2020",
+    "lodTwo": "1 July 2021",
+    "lodThree": "28 Aug 2021"
   },
   {
-    "name": "Claims Transformation - Payment Integrity",
-    "status": true,
-    "assessmentType": "System",
-    "assessmentSubType": "Conception",
-    "risk": "Low Risk",
-    "actionDate": "12 Jun 2021",
-    "completedDate": "Submitted on 23 jun 2020"
+    "name": "Star Rating Improvement",
+    "businessOwner": "Mitchell Shimko",
+    "technicalOwner": "David Joumaa",
+    "riskLevel": "Low Risk",
+    "lodOne": "1 Jun 2020",
+    "lodTwo": "23 Jun 2020",
+    "lodThree": "25 Aug 2021"
   },
   {
-    "name": "Care Optimization",
-    "status": true,
-    "assessmentType": "System",
-    "assessmentSubType": "Conception",
-    "risk": "High Risk",
-    "actionDate": "12 Jun 2021",
-    "completedDate": "Submitted on 23 jun 2020"
+    "name": "Intelligent Call Routing",
+    "businessOwner": "Robert Downey",
+    "technicalOwner": "David Joumaa",
+    "riskLevel": "High Risk",
+    "lodOne": "14 May 2020",
+    "lodTwo": "23 Jun 2021",
+    "lodThree": "20 Aug 2021"
   }
 ]

@@ -33,13 +33,13 @@ export default function SystemInventoryGrid(props) {
   }
 
   const rowTitle = [
-    'Project Name',
-    'Status',
-    'Assessment Type',
-    'Risk Flag',
-    'Action Date',
-    'Action',
-    '',
+    'System Name',
+    'Business Owner',
+    'Technical Owner',
+    'Impact Rating',
+    'LOD 1',
+    'LOD 2',
+    'LOD 3',
   ];
 
   const handleChipColor = (riskLevel) => {
@@ -82,14 +82,8 @@ export default function SystemInventoryGrid(props) {
               <StyledTableCell className={classes.anthemBlue}>
                 {data.name}
               </StyledTableCell>
-              <StyledTableCell>
-                {data.status ? 'Completed' : 'In Progress'}
-                <CaptionTypography>{data.completedDate}</CaptionTypography>
-              </StyledTableCell>
-              <StyledTableCell>
-                {data.assessmentType}
-                <CaptionTypography>{data.assessmentSubType}</CaptionTypography>
-              </StyledTableCell>
+              <StyledTableCell>{data.businessOwner}</StyledTableCell>
+              <StyledTableCell>{data.technicalOwner}</StyledTableCell>
               <StyledTableCell>
                 <Chip
                   color="success"
@@ -97,13 +91,9 @@ export default function SystemInventoryGrid(props) {
                   className={handleChipColor(data.risk)}
                 ></Chip>
               </StyledTableCell>
-              <StyledTableCell>{data.actionDate}</StyledTableCell>
-              <StyledTableCell className={classes.anthemBlue}>
-                <FileCopyRounded className={classes.anthemBlue} /> Clone
-              </StyledTableCell>
-              <StyledTableCell>
-                <DeleteRounded />
-              </StyledTableCell>
+              <StyledTableCell>{data.lodOne}</StyledTableCell>
+              <StyledTableCell>{data.lodTwo}</StyledTableCell>
+              <StyledTableCell>{data.lodThree}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
