@@ -8,14 +8,12 @@ import TableHead from '@material-ui/core/TableHead';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 
-// import TablePagination from '@material-ui/core/TablePagination';
-
 import Search from '@material-ui/icons/Search';
 import FileCopyRounded from '@material-ui/icons/FileCopyRounded';
 import DeleteRounded from '@material-ui/icons/DeleteRounded';
 import { useTheme } from '@material-ui/core/styles';
 
-import assessmentGridData from '../assets/data/assessmentGridData.json';
+import SystemInventoryData from '../assets/data/SystemInventoryData.json';
 
 import {
   StyledTableCell,
@@ -23,7 +21,7 @@ import {
   CaptionTypography,
   SearchBar,
   useStyles,
-} from './AssessmentGridStyle';
+} from './SystemInventoryStyle';
 
 export default function SystemInventoryGrid(props) {
   const { expandButton } = props;
@@ -79,7 +77,7 @@ export default function SystemInventoryGrid(props) {
           ))}
         </TableHead>
         <TableBody>
-          {assessmentGridData.map((data, i) => (
+          {SystemInventoryData.map((data, i) => (
             <StyledTableRow stripedRows key={i}>
               <StyledTableCell className={classes.anthemBlue}>
                 {data.name}

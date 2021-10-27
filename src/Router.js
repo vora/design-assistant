@@ -5,6 +5,8 @@ import Results from './views/Results.js';
 import PrivateRoute from './PrivateRoute';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import DesignAssistantSurvey from './views/DesignAssistantSurvey.js';
+import SystemInventory from './views/SystemInventory.js';
+
 import ViewSubmissions from './views/ViewSubmissions';
 
 export default function Router() {
@@ -18,6 +20,7 @@ export default function Router() {
             path="/DesignAssistantSurvey"
             component={DesignAssistantSurvey}
           />
+          <Route exact path="/SystemInventory" component={SystemInventory} />
           <Route path="/Results" component={Results} />
           <PrivateRoute path="/Admin" component={Admin} />
           <PrivateRoute path="/ViewSubmissions" component={ViewSubmissions} />
