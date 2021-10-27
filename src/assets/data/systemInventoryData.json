@@ -3,7 +3,7 @@
     "name": "Patient Discharge",
     "businessOwner": "Riikka Mercer",
     "technicalOwner": "David Joumaa",
-    "riskLevel": "Low Risk",
+    "risk": "Low Risk",
     "lodOne": "21 Oct 2020",
     "lodTwo": "21 July 2021",
     "lodThree": "11 Oct 2021"
@@ -12,7 +12,7 @@
     "name": "Digital Claims Examiner",
     "businessOwner": "Scout Dougherty",
     "technicalOwner": "Alex Knipfer",
-    "riskLevel": "High Risk",
+    "risk": "High Risk",
     "lodOne": "20 Oct 2020",
     "lodTwo": "21 July 2021",
     "lodThree": "10 Oct 2021"
@@ -21,7 +21,7 @@
     "name": "Client Self Service",
     "businessOwner": "Philip Loeffler",
     "technicalOwner": "Alejandro Perea",
-    "riskLevel": "Medium Risk",
+    "risk": "Medium Risk",
     "lodOne": "10 Aug 2020",
     "lodTwo": "11 July 2021",
     "lodThree": "10 Oct 2021"
@@ -30,7 +30,7 @@
     "name": "Increase Preventative Care",
     "businessOwner": "Chris Ransdell",
     "technicalOwner": "Abiraj Solanki",
-    "riskLevel": "Low Risk",
+    "risk": "Low Risk",
     "lodOne": "23 jun 2020",
     "lodTwo": "5 July 2021",
     "lodThree": "2 Oct 2021"
@@ -39,7 +39,7 @@
     "name": "Medicae Conversion",
     "businessOwner": "Jason Carney",
     "technicalOwner": "Aaron Dean",
-    "riskLevel": "High Risk",
+    "risk": "High Risk",
     "lodOne": "11 Jun 2020",
     "lodTwo": "1 July 2021",
     "lodThree": "28 Aug 2021"
@@ -48,7 +48,7 @@
     "name": "Star Rating Improvement",
     "businessOwner": "Mitchell Shimko",
     "technicalOwner": "David Joumaa",
-    "riskLevel": "Low Risk",
+    "risk": "Low Risk",
     "lodOne": "1 Jun 2020",
     "lodTwo": "23 Jun 2020",
     "lodThree": "25 Aug 2021"
@@ -57,7 +57,7 @@
     "name": "Intelligent Call Routing",
     "businessOwner": "Robert Downey",
     "technicalOwner": "David Joumaa",
-    "riskLevel": "High Risk",
+    "risk": "High Risk",
     "lodOne": "14 May 2020",
     "lodTwo": "23 Jun 2021",
     "lodThree": "20 Aug 2021"

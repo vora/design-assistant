@@ -83,6 +83,7 @@ export default function SystemInventoryGrid(props) {
                 {data.name}
               </StyledTableCell>
               <StyledTableCell>{data.businessOwner}</StyledTableCell>
+
               <StyledTableCell>{data.technicalOwner}</StyledTableCell>
               <StyledTableCell>
                 <Chip
@@ -91,9 +92,18 @@ export default function SystemInventoryGrid(props) {
                   className={handleChipColor(data.risk)}
                 ></Chip>
               </StyledTableCell>
-              <StyledTableCell>{data.lodOne}</StyledTableCell>
-              <StyledTableCell>{data.lodTwo}</StyledTableCell>
-              <StyledTableCell>{data.lodThree}</StyledTableCell>
+              <StyledTableCell>
+                {data.lodOne}
+                <CaptionTypography>{data.technicalOwner}</CaptionTypography>
+              </StyledTableCell>
+              <StyledTableCell>
+                {data.lodTwo}
+                <CaptionTypography>{data.businessOwner}</CaptionTypography>
+              </StyledTableCell>
+              <StyledTableCell>
+                {data.lodThree}
+                <CaptionTypography>{data.technicalOwner}</CaptionTypography>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
