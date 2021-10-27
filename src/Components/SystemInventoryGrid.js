@@ -13,7 +13,7 @@ import FileCopyRounded from '@material-ui/icons/FileCopyRounded';
 import DeleteRounded from '@material-ui/icons/DeleteRounded';
 import { useTheme } from '@material-ui/core/styles';
 
-import SystemInventoryData from '../assets/data/SystemInventoryData.json';
+import systemInventoryData from '../assets/data/systemInventoryData.json';
 
 import {
   StyledTableCell,
@@ -77,7 +77,7 @@ export default function SystemInventoryGrid(props) {
           ))}
         </TableHead>
         <TableBody>
-          {SystemInventoryData.map((data, i) => (
+          {systemInventoryData.map((data, i) => (
             <StyledTableRow stripedRows key={i}>
               <StyledTableCell className={classes.anthemBlue}>
                 {data.name}
