@@ -7,13 +7,17 @@ resources:
 - repo: self
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
+- task: PowerShell@2
+  displayName: Build
+  env:
+    NODE_OPTIONS: --max_old_space_size=16384
 
 - script: |
     npm install
