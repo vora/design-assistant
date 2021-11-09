@@ -3,6 +3,7 @@ import { getLoggedInUser } from '../helper/AuthHelper';
 import { Button, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AssessmentGrid from '../Components/AssessmentGrid';
+import Assessment from '../Components/Assessment';
 
 import api from '../api';
 import ReactGa from 'react-ga';
@@ -43,6 +44,7 @@ class UserSubmissions extends Component {
       authToken: localStorage.getItem('authToken'),
       submissions: [],
       showDeleteWarning: false,
+      isLoggedIn: false,
     };
   }
 
@@ -50,7 +52,6 @@ class UserSubmissions extends Component {
     // get the logged in user and their submissions from backend
     getLoggedInUser().then((user) => {
       if (user) {
-        console.log(user);
         this.setState({ user: user });
         this.setState({ collabRole: user.collabRoles });
         console.log(this.state.collabRole);
@@ -64,6 +65,7 @@ class UserSubmissions extends Component {
             this.setState(submissions);
           });
       }
+      this.state.isLoggedIn = true;
     });
   }
 
@@ -180,60 +182,136 @@ class UserSubmissions extends Component {
     const handleClose = () => this.setState({ showDeleteWarning: false });
     return (
       <div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            position: 'relative',
-            bottom: '100px',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              width: '50%',
-            }}
-          >
-            <LandingButton
-              variant="outlined"
-              type="button"
-              onClick={() => this.startSurvey()}
+        {!this.state.isLoggedIn ? (
+          <div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+              }}
             >
-              Start New Survey
-            </LandingButton>
-            <LandingButton variant="outlined" type="button" href={faqPath}>
-              FREQUENTLY ASKED QUESTIONS
-            </LandingButton>
-            <LandingButton variant="outlined" type="button" href={guidancePath}>
-              GUIDE LINK
-            </LandingButton>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width: '50%',
+                }}
+              >
+                <LandingButton variant="outlined" type="button" href={faqPath}>
+                  FREQUENTLY ASKED QUESTIONS
+                </LandingButton>
+                <LandingButton
+                  variant="outlined"
+                  type="button"
+                  href={guidancePath}
+                >
+                  GUIDE LINK
+                </LandingButton>
+              </div>
+              <Box mt={1} />
+            </div>
+            <Box mt={10} />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                height: '400px',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: '50%',
+                }}
+              >
+                With‌ ‌our‌ ‌esteemed‌ ‌community‌ ‌of‌ ‌subject‌ ‌matter‌
+                ‌experts‌ ‌ranging‌ ‌from‌ ‌engineers,‌ ‌to‌ ethicists,‌ ‌to‌
+                ‌policy‌ ‌makers,‌ ‌we‌ ‌have‌ ‌taken‌ ‌the‌ ‌most‌ ‌cited‌
+                ‌principles,‌ ‌whitepapers,‌ ‌and‌ policy‌ ‌documents‌
+                ‌published‌ ‌by‌ ‌academics,‌ ‌standards‌ ‌organizations,‌ ‌and‌
+                ‌companies‌ and‌ ‌translated‌ ‌them‌ ‌into‌ ‌comprehensive‌
+                ‌questions.‌ Our‌ ‌hope‌ ‌is‌ ‌that‌ ‌you‌ ‌will‌ ‌work‌ ‌with‌
+                ‌your‌ ‌colleagues‌ ‌who‌ ‌are‌ ‌responsible‌ ‌for‌ ‌different‌
+                aspects‌ ‌of‌ ‌your‌ ‌business‌ ‌to‌ ‌fill‌ ‌out‌ ‌the‌ ‌Design‌
+                ‌Assistant.‌ ‌Whether‌ ‌you‌ ‌are‌ ‌just‌ ‌thinking‌ about‌
+                ‌how‌ ‌to‌ ‌integrate‌ ‌AI‌ ‌tools‌ ‌into‌ ‌your‌ ‌business,‌
+                ‌or‌ ‌you‌ ‌have‌ ‌already‌ ‌deployed‌ several‌ ‌models,‌ ‌this‌
+                ‌tool‌ ‌is‌ ‌for‌ ‌you.‌ ‌We‌ ‌do‌ ‌think‌ ‌that‌ ‌these‌
+                ‌questions‌ ‌are‌ ‌best‌ ‌to‌ ‌think‌ about‌ ‌at‌ ‌the‌ ‌start‌
+                ‌of‌ ‌your‌ ‌project,‌ ‌however,‌ ‌we‌ ‌do‌ ‌think‌ ‌that‌ ‌the‌
+                ‌Design‌ ‌Assistant‌ ‌can‌ ‌be‌ used‌ ‌throughout‌ ‌the‌
+                ‌lifecycle‌ ‌of‌ ‌your‌ ‌project!‌
+              </div>
+            </div>
           </div>
-        </div>
-        <Box mb={5} />
-        <Box mt={10} />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <div
-            style={{
-              width: '90%',
-            }}
-          >
-            <AssessmentGrid
-              submission={this.state.submissions}
-              userName={this.state?.user?.username}
-              handleDelete={() => this.deleteSurvey()}
-              handleClone={(index) => this.cloneSurvey(index)}
-            ></AssessmentGrid>
+        ) : (
+          <div>
+            <Box mt={10} />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                position: 'relative',
+                bottom: '100px',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width: '50%',
+                }}
+              >
+                <LandingButton
+                  variant="outlined"
+                  type="button"
+                  onClick={() => this.startSurvey()}
+                >
+                  Start New Survey
+                </LandingButton>
+                <LandingButton variant="outlined" type="button" href={faqPath}>
+                  FREQUENTLY ASKED QUESTIONS
+                </LandingButton>
+                <LandingButton
+                  variant="outlined"
+                  type="button"
+                  href={guidancePath}
+                >
+                  GUIDE LINK
+                </LandingButton>
+              </div>
+            </div>
+            <Assessment></Assessment>
+            <Box mb={5} />
+            <Box mt={10} />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <div
+                style={{
+                  width: '90%',
+                }}
+              >
+                <AssessmentGrid
+                  submission={this.state.submissions}
+                  userName={this.state?.user?.username}
+                  handleDelete={() => this.deleteSurvey()}
+                  handleClone={(index) => this.cloneSurvey(index)}
+                ></AssessmentGrid>
+                <Box mt={4} />
+              </div>
+            </div>
             <Box mt={4} />
           </div>
-        </div>
-        <Box mt={4} />
+        )}
       </div>
     );
   }
