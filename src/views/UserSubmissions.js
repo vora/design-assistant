@@ -57,6 +57,11 @@ class UserSubmissions extends Component {
         });
       }
     });
+
+    api.get('submissions/').then((res) => {
+      const allSubmissions = res.data;
+      this.setState(allSubmissions);
+    });
   }
 
   startSurvey() {
