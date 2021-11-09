@@ -8,6 +8,7 @@ import {
   TableHead,
   Paper,
   Chip,
+  Button,
 } from '@material-ui/core';
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -118,15 +119,25 @@ export default function AssessmentGrid(props) {
                 </StyledTableCell>
                 <StyledTableCell className={classes.anthemBlue}>
                   <FileCopyRounded
+                    style={{ cursor: 'pointer' }}
                     onClick={() => {
                       handleClone(i);
                     }}
                     className={classes.anthemBlue}
                   />
-                  Clone
+                  <Button
+                    onClick={() => {
+                      handleClone(i);
+                    }}
+                    variant="text"
+                    className={classes.anthemBlue}
+                  >
+                    Clone
+                  </Button>
                 </StyledTableCell>
                 <StyledTableCell>
                   <DeleteRounded
+                    style={{ cursor: 'pointer' }}
                     onClick={() => {
                       handleDelete();
                     }}
@@ -139,7 +150,7 @@ export default function AssessmentGrid(props) {
       </TableContainer>
       <Box mt={10} />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <Pagination count={10} />
+        <Pagination />
       </div>
     </div>
   );
