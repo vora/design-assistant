@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
-// import { Button } from '@material-ui/core';
+import { Modal, Form } from 'react-bootstrap';
+// import { Modal, Form, Button } from 'react-bootstrap';
+
+import { Button } from '@material-ui/core';
 
 import '../css/login.css';
 import Signup from './Signup';
@@ -101,11 +103,11 @@ export default class Login extends Component {
     } else {
       return (
         <Button
+          className="login"
           onClick={() => {
             handleShow();
             LoginHandler();
           }}
-          className="user-status"
         >
           Log in
         </Button>
