@@ -24,7 +24,7 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { expandButton } = props;
+  const { submission, expandButton } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -78,29 +78,30 @@ export default function AssessmentGrid(props) {
             ))}
           </TableHead>
           <TableBody>
-            {assessmentGridData.map((data, i) => (
+            {submission.map((submissions, i) => (
               <StyledTableRow stripedRows key={i}>
                 <StyledTableCell className={classes.anthemBlue}>
-                  {data.name}
+                  {submissions.projectName}
                 </StyledTableCell>
                 <StyledTableCell>
-                  {data.status ? 'Completed' : 'In Progress'}
-                  <CaptionTypography>{data.completedDate}</CaptionTypography>
+                  {submissions.completed ? 'Completed' : 'In Progress'}
+                  <CaptionTypography>{submissions.date}</CaptionTypography>
                 </StyledTableCell>
                 <StyledTableCell>
-                  {data.assessmentType}
+                  {/* {data.assessmentType} */}
                   <CaptionTypography>
-                    {data.assessmentSubType}
+                    {/* {data.assessmentSubType} */}
                   </CaptionTypography>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Chip
-                    color="success"
-                    label={data.risk}
-                    className={handleChipColor(data.risk)}
+                  // color="success"
+                  // label={data.risk}
+                  // className={handleChipColor(data.risk)}
                   ></Chip>
                 </StyledTableCell>
-                <StyledTableCell>{data.actionDate}</StyledTableCell>
+                {/* <StyledTableCell>{data.actionDate}</StyledTableCell> */}
+                <StyledTableCell></StyledTableCell>
                 <StyledTableCell className={classes.anthemBlue}>
                   <FileCopyRounded className={classes.anthemBlue} /> Clone
                 </StyledTableCell>
