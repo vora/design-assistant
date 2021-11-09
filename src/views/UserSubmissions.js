@@ -218,6 +218,7 @@ class UserSubmissions extends Component {
           >
             <AssessmentGrid
               submission={this.state.submissions}
+              userName={this.state?.user?.username}
             ></AssessmentGrid>
             <Box mt={4} />
           </div>

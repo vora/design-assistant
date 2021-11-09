@@ -24,7 +24,7 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { submission, expandButton } = props;
+  const { submission, userName, expandButton } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -82,6 +82,7 @@ export default function AssessmentGrid(props) {
               <StyledTableRow stripedRows key={i}>
                 <StyledTableCell className={classes.anthemBlue}>
                   {submissions.projectName}
+                  <CaptionTypography>{userName}</CaptionTypography>
                 </StyledTableCell>
                 <StyledTableCell>
                   {submissions.completed ? 'Completed' : 'In Progress'}
