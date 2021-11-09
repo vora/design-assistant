@@ -85,7 +85,14 @@ export default function AssessmentGrid(props) {
                 </StyledTableCell>
                 <StyledTableCell>
                   {submissions.completed ? 'Completed' : 'In Progress'}
-                  <CaptionTypography>{submissions.date}</CaptionTypography>
+                  <CaptionTypography>
+                    {' '}
+                    {new Date(submissions.date).toLocaleString('en-US', {
+                      timeZone:
+                        Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ??
+                        'UTC',
+                    })}
+                  </CaptionTypography>
                 </StyledTableCell>
                 <StyledTableCell>
                   {/* {data.assessmentType} */}
@@ -101,7 +108,13 @@ export default function AssessmentGrid(props) {
                   ></Chip>
                 </StyledTableCell>
                 {/* <StyledTableCell>{data.actionDate}</StyledTableCell> */}
-                <StyledTableCell></StyledTableCell>
+                <StyledTableCell>
+                  {new Date(submissions.date).toLocaleString('en-US', {
+                    timeZone:
+                      Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ??
+                      'UTC',
+                  })}
+                </StyledTableCell>
                 <StyledTableCell className={classes.anthemBlue}>
                   <FileCopyRounded className={classes.anthemBlue} /> Clone
                 </StyledTableCell>
