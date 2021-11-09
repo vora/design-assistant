@@ -14,21 +14,19 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get submissions by user id
-// TASK-TODO: Secure endpoint.
-// router.get('/user/:userId', async (req, res) => {
-//   try {
-//     await Submission.find({ userId: req.params.userId })
-//       .sort({ date: -1 })
-//       .then((submissions) => {
-//         res.json({ submissions: submissions });
-//       });
-//   } catch (err) {
-//     res.json({ message: err });
-//   }
-// });
-
 router.get('/user/:userId', async (req, res) => {
+  try {
+    await Submission.find({ userId: req.params.userId })
+      .sort({ date: -1 })
+      .then((submissions) => {
+        res.json({ submissions: submissions });
+      });
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+router.get('/:collabRole', async (req, res) => {
   try {
     await Submission.aggregate([
       {
@@ -46,7 +44,7 @@ router.get('/user/:userId', async (req, res) => {
       },
       {
         $match: {
-          'users.collabRoles': 'dataScientist',
+          'users.collabRoles': req.params.collabRole,
         },
       },
     ])

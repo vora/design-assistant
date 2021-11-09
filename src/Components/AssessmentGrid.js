@@ -24,7 +24,7 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { submission, userName, handleClone } = props;
+  const { submission, userName, handleClone, handleDelete } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -102,11 +102,11 @@ export default function AssessmentGrid(props) {
                   </CaptionTypography>
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Chip
-                  // color="success"
-                  // label={data.risk}
-                  // className={handleChipColor(data.risk)}
-                  ></Chip>
+                  {/* <Chip
+                  color="success"
+                  label={data.risk}
+                  className={handleChipColor(data.risk)}
+                  ></Chip> */}
                 </StyledTableCell>
                 {/* <StyledTableCell>{data.actionDate}</StyledTableCell> */}
                 <StyledTableCell>
@@ -126,7 +126,11 @@ export default function AssessmentGrid(props) {
                   Clone
                 </StyledTableCell>
                 <StyledTableCell>
-                  <DeleteRounded />
+                  <DeleteRounded
+                    onClick={() => {
+                      handleDelete();
+                    }}
+                  />
                 </StyledTableCell>
               </StyledTableRow>
             ))}

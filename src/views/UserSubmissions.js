@@ -50,12 +50,19 @@ class UserSubmissions extends Component {
     // get the logged in user and their submissions from backend
     getLoggedInUser().then((user) => {
       if (user) {
+        console.log(user);
         this.setState({ user: user });
-        api.get('submissions/user/' + user._id).then((res) => {
-          var submissions = res.data;
-          console.log(submissions);
-          this.setState(submissions);
-        });
+        this.setState({ collabRole: user.collabRoles });
+        console.log(this.state.collabRole);
+        api
+          .get('submissions/' + this.state.collabRole)
+          // .get('submissions/user/' + user._id)
+
+          .then((res) => {
+            var submissions = res.data;
+            console.log(submissions);
+            this.setState(submissions);
+          });
       }
     });
   }
@@ -220,7 +227,7 @@ class UserSubmissions extends Component {
             <AssessmentGrid
               submission={this.state.submissions}
               userName={this.state?.user?.username}
-              // handleClone={this.cloneSurvey(index)}
+              handleDelete={() => this.deleteSurvey()}
               handleClone={(index) => this.cloneSurvey(index)}
             ></AssessmentGrid>
             <Box mt={4} />
