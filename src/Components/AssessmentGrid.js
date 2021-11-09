@@ -24,7 +24,7 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { submission, userName, expandButton } = props;
+  const { submission, userName, handleClone } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -117,7 +117,13 @@ export default function AssessmentGrid(props) {
                   })}
                 </StyledTableCell>
                 <StyledTableCell className={classes.anthemBlue}>
-                  <FileCopyRounded className={classes.anthemBlue} /> Clone
+                  <FileCopyRounded
+                    onClick={() => {
+                      handleClone(i);
+                    }}
+                    className={classes.anthemBlue}
+                  />
+                  Clone
                 </StyledTableCell>
                 <StyledTableCell>
                   <DeleteRounded />

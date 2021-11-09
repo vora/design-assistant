@@ -53,14 +53,10 @@ class UserSubmissions extends Component {
         this.setState({ user: user });
         api.get('submissions/user/' + user._id).then((res) => {
           var submissions = res.data;
+          console.log(submissions);
           this.setState(submissions);
         });
       }
-    });
-
-    api.get('submissions/').then((res) => {
-      const allSubmissions = res.data;
-      this.setState(allSubmissions);
     });
   }
 
@@ -224,6 +220,8 @@ class UserSubmissions extends Component {
             <AssessmentGrid
               submission={this.state.submissions}
               userName={this.state?.user?.username}
+              // handleClone={this.cloneSurvey(index)}
+              handleClone={(index) => this.cloneSurvey(index)}
             ></AssessmentGrid>
             <Box mt={4} />
           </div>
