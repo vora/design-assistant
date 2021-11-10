@@ -305,6 +305,7 @@ class UserSubmissions extends Component {
                 <AssessmentGrid
                   submission={this.state.submissions}
                   userName={this.state?.user?.username}
+                  collabRole={this.state?.user?.collabRole}
                   handleDelete={() => this.deleteSurvey()}
                 ></AssessmentGrid>
                 <Box mt={4} />

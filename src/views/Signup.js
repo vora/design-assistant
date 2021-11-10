@@ -84,7 +84,7 @@ export default class Signup extends Component {
       username: { isInvalid: false, message: '' },
       password: { isInvalid: false, message: '' },
       passwordConfirmation: { isInvalid: false, message: '' },
-      collabRoles: { isInvalid: false, message: '' },
+      collabRole: { isInvalid: false, message: '' },
       emailInput: '',
       usernameInput: '',
       emailAsUsername: true,
@@ -104,7 +104,7 @@ export default class Signup extends Component {
       passwordConfirmation: { isInvalid: false, message: '' },
       role: { isInvalid: false, message: '' },
       organization: { isInvalid: false, message: '' },
-      collabRoles: { isInvalid: false, message: '' },
+      collabRole: { isInvalid: false, message: '' },
     });
     event.preventDefault();
     let form = event.target.elements;
@@ -113,7 +113,7 @@ export default class Signup extends Component {
     let password = form.signupPassword.value;
     let passwordConfirmation = form.signupPasswordConfirmation.value;
     let organization = form.signupOrganization.value;
-    let collabRoles = form.signupCollabRoles.value;
+    let collabRole = form.signupcollabRole.value;
 
     let result = owasp.test(password);
     if (!result.strong) {
@@ -137,7 +137,7 @@ export default class Signup extends Component {
           password: password,
           passwordConfirmation: passwordConfirmation,
           organization: organization,
-          collabRoles: collabRoles,
+          collabRole: collabRole,
         })
         .then((response) => {
           const result = response.data;
@@ -312,7 +312,7 @@ export default class Signup extends Component {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="signupCollabRoles">
+              <Form.Group controlId="signupcollabRole">
                 <Form.Control as="select">
                   <option value="" disabled selected hidden>
                     Role
