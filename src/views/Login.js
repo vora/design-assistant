@@ -176,7 +176,7 @@ export default class Login extends Component {
             {/* TODO: remove this once ready for more users */}
             <div className="create-account">
               <p className="disabled">Not a member yet?&nbsp;</p>
-              <Signup onLanding={true} signedOut={false} />
+              <Signup onLanding={true} signedOut={false} admin={true} />
             </div>
           </Modal.Body>
           <Modal.Footer>
