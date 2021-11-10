@@ -12,9 +12,8 @@ import {
 } from '@material-ui/core';
 
 import Pagination from '@material-ui/lab/Pagination';
-import { Search, FileCopyRounded, DeleteRounded } from '@material-ui/icons';
+import { Search, DeleteRounded } from '@material-ui/icons';
 import { useTheme } from '@material-ui/core/styles';
-import assessmentGridData from '../assets/data/assessmentGridData.json';
 
 import {
   StyledTableCell,
@@ -25,7 +24,7 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { submission, userName, handleClone, handleDelete } = props;
+  const { submission, userName, handleDelete } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -35,12 +34,10 @@ export default function AssessmentGrid(props) {
 
   const rowTitle = [
     'Project Name',
+    'Product Owner',
+    'Risk Level',
     'Status',
-    'Assessment Type',
-    'Risk Flag',
-    'Action Date',
     'Action',
-    '',
   ];
 
   const handleChipColor = (riskLevel) => {
@@ -83,8 +80,17 @@ export default function AssessmentGrid(props) {
               <StyledTableRow stripedRows key={i}>
                 <StyledTableCell className={classes.anthemBlue}>
                   {submissions.projectName}
-                  <CaptionTypography>{userName}</CaptionTypography>
                 </StyledTableCell>
+                <StyledTableCell>{userName}</StyledTableCell>
+
+                <StyledTableCell>
+                  {/* <Chip
+                  color="success"
+                  label={data.risk}
+                  className={handleChipColor(data.risk)}
+                  ></Chip> */}
+                </StyledTableCell>
+                {/* <StyledTableCell>{data.actionDate}</StyledTableCell> */}
                 <StyledTableCell>
                   {submissions.completed ? 'Completed' : 'In Progress'}
                   <CaptionTypography>
@@ -97,51 +103,16 @@ export default function AssessmentGrid(props) {
                   </CaptionTypography>
                 </StyledTableCell>
                 <StyledTableCell>
-                  {/* {data.assessmentType} */}
-                  <CaptionTypography>
-                    {/* {data.assessmentSubType} */}
-                  </CaptionTypography>
-                </StyledTableCell>
-                <StyledTableCell>
-                  {/* <Chip
-                  color="success"
-                  label={data.risk}
-                  className={handleChipColor(data.risk)}
-                  ></Chip> */}
-                </StyledTableCell>
-                {/* <StyledTableCell>{data.actionDate}</StyledTableCell> */}
-                <StyledTableCell>
-                  {new Date(submissions.date).toLocaleString('en-US', {
-                    timeZone:
-                      Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ??
-                      'UTC',
-                  })}
-                </StyledTableCell>
-                <StyledTableCell className={classes.anthemBlue}>
-                  <FileCopyRounded
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      handleClone(i);
-                    }}
-                    className={classes.anthemBlue}
-                  />
-                  <Button
-                    onClick={() => {
-                      handleClone(i);
-                    }}
-                    variant="text"
-                    className={classes.anthemBlue}
-                  >
-                    Clone
-                  </Button>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <DeleteRounded
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      handleDelete();
-                    }}
-                  />
+                  {!submissions.completed && (
+                    <div>
+                      <DeleteRounded
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          handleDelete();
+                        }}
+                      />
+                    </div>
+                  )}
                 </StyledTableCell>
               </StyledTableRow>
             ))}

@@ -31,11 +31,8 @@ const StartSurveyHandler = () => {
   });
 };
 
-const faqPath =
-  '/https://ai-global.org/2020/04/28/creating-a-responsible-ai-trust-index-a-unified-assessment-to-assure-the-responsible-design-development-and-deployment-of-ai/';
-
 const guidancePath =
-  '/https://docs.google.com/presentation/d/1EDPhyRhIsiOrujLcHQv_fezXfgOz4Rl7a8lyOM_guoA/edit#slide=id.p1';
+  'https://docs.google.com/presentation/d/1EDPhyRhIsiOrujLcHQv_fezXfgOz4Rl7a8lyOM_guoA/edit#slide=id.p1';
 class UserSubmissions extends Component {
   constructor(props) {
     super(props);
@@ -199,9 +196,6 @@ class UserSubmissions extends Component {
                   width: '50%',
                 }}
               >
-                <LandingButton variant="outlined" type="button" href={faqPath}>
-                  FREQUENTLY ASKED QUESTIONS
-                </LandingButton>
                 <LandingButton
                   variant="outlined"
                   type="button"
@@ -276,11 +270,9 @@ class UserSubmissions extends Component {
                   type="button"
                   onClick={() => this.startSurvey()}
                 >
-                  Start New Survey
+                  Start Assessment
                 </LandingButton>
-                <LandingButton variant="outlined" type="button" href={faqPath}>
-                  FREQUENTLY ASKED QUESTIONS
-                </LandingButton>
+
                 <LandingButton
                   variant="outlined"
                   type="button"
@@ -308,7 +300,6 @@ class UserSubmissions extends Component {
                   submission={this.state.submissions}
                   userName={this.state?.user?.username}
                   handleDelete={() => this.deleteSurvey()}
-                  handleClone={(index) => this.cloneSurvey(index)}
                 ></AssessmentGrid>
                 <Box mt={4} />
               </div>
