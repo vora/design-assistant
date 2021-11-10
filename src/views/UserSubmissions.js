@@ -31,10 +31,7 @@ const StartSurveyHandler = () => {
 };
 
 const faqPath =
-  '/https://ai-global.org/2020/04/28/creating-a-responsible-ai-trust-index-a-unified-assessment-to-assure-the-responsible-design-development-and-deployment-of-ai/';
-
-const guidancePath =
-  '/https://docs.google.com/presentation/d/1EDPhyRhIsiOrujLcHQv_fezXfgOz4Rl7a8lyOM_guoA/edit#slide=id.p1';
+  'https://docs.google.com/presentation/d/1EDPhyRhIsiOrujLcHQv_fezXfgOz4Rl7a8lyOM_guoA/edit#slide=id.p1';
 class UserSubmissions extends Component {
   constructor(props) {
     super(props);
@@ -191,15 +188,13 @@ class UserSubmissions extends Component {
             <LandingButton
               variant="outlined"
               type="button"
+              disabled={!this.state.user}
               onClick={() => this.startSurvey()}
             >
-              Start New Survey
+              Start Assessment
             </LandingButton>
             <LandingButton variant="outlined" type="button" href={faqPath}>
-              FREQUENTLY ASKED QUESTIONS
-            </LandingButton>
-            <LandingButton variant="outlined" type="button" href={guidancePath}>
-              GUIDE LINK
+              FAQ & User Guide
             </LandingButton>
           </div>
         </div>
