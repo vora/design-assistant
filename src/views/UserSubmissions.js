@@ -271,16 +271,15 @@ class UserSubmissions extends Component {
                   width: '50%',
                 }}
               >
-                {this.state?.user?.collabRoles !== 'legalCompliance' ||
-                  (this.state?.user?.collabRoles !== 'productOwner' && (
-                    <LandingButton
-                      variant="outlined"
-                      type="button"
-                      onClick={() => this.startSurvey()}
-                    >
-                      Start Assessment
-                    </LandingButton>
-                  ))}
+                {this.state?.user?.collabRoles !== 'legalCompliance' && (
+                  <LandingButton
+                    variant="outlined"
+                    type="button"
+                    onClick={() => this.startSurvey()}
+                  >
+                    Start Assessment
+                  </LandingButton>
+                )}
                 <LandingButton
                   variant="outlined"
                   type="button"
