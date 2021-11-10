@@ -11,7 +11,9 @@ import {
 export const AssessmentStepper = ({ dimArray, onStepClick, pages, model }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [overallProgress, setOverallProgress] = useState(0);
+
   useEffect(() => {
+    //calculate overall progress by comparing all questions against answered (stored in model.data from parent state)
     let answeredCount = 0;
     const questionCount = pages?.reduce((acc, page) => {
       acc += page.elements.length;
@@ -24,7 +26,9 @@ export const AssessmentStepper = ({ dimArray, onStepClick, pages, model }) => {
     }, 0);
 
     setOverallProgress((answeredCount / questionCount) * 100);
-  });
+  }, [model.data]);
+
+  //finds the first page that has the dimension name or dimension name + 1 (accounts for ProjectDetails only having one page)
   const getFirstPageOfDimension = (dimension) => {
     const index = pages.findIndex(
       (page) =>
@@ -39,6 +43,7 @@ export const AssessmentStepper = ({ dimArray, onStepClick, pages, model }) => {
     onStepClick(pageIndex);
   };
 
+  //calculate individual dimension progress by finding only questions for that dimension
   const dimensionProgress = (dimension) => {
     let answeredCount = 0;
     const questionCount = pages?.reduce((acc, page) => {
