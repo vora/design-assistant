@@ -23,7 +23,7 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: CopyFiles@2
   inputs:
-    Contents: '**/server.js'
+    Contents: 'server.js'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: ArchiveFiles@2
   inputs:
