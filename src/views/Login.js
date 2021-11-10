@@ -95,8 +95,9 @@ export default class Login extends Component {
       return (
         <div className="user-status">
           <UserSettings />
-          <p className="msg">
-            Logged in as: <strong>{user.username}</strong> &nbsp;
+          <p className="msg ">
+            Logged in as:{' '}
+            <strong className="anthem-blue">{user.username}</strong> &nbsp;
           </p>
         </div>
       );

@@ -4,6 +4,7 @@ import { Button, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AssessmentGrid from '../Components/AssessmentGrid';
 import Assessment from '../Components/Assessment';
+import Signup from './../views/Signup';
 
 import api from '../api';
 import ReactGa from 'react-ga';
@@ -42,6 +43,7 @@ class UserSubmissions extends Component {
       submissions: [],
       showDeleteWarning: false,
       isLoggedIn: false,
+      showSignupModal: false,
     };
   }
 
@@ -122,6 +124,8 @@ class UserSubmissions extends Component {
     this.setState({ showDeleteWarning: true });
   }
 
+  handleSignupShow = () => this.setState({ showSignupModal: true });
+
   deleteSurvey() {
     let currentSubmissionIdx = this.state.currentSubmissionIdx;
     let submissions = this.state.submissions;
@@ -196,6 +200,8 @@ class UserSubmissions extends Component {
                   width: '50%',
                 }}
               >
+                <Signup signedOut={true} admin={true} />
+
                 <LandingButton
                   variant="outlined"
                   type="button"

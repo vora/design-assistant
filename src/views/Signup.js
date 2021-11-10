@@ -6,8 +6,25 @@ import { expireAuthToken } from '../helper/AuthHelper';
 import ReactGa from 'react-ga';
 import IconButton from '@material-ui/core/IconButton';
 import Add from '@material-ui/icons/Add';
+import { Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 const owasp = require('owasp-password-strength-test');
+
+const LandingButton = withStyles(() => ({
+  root: {
+    borderRadius: '8px',
+    border: '1px solid',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#386EDA',
+    color: '#386EDA',
+    '&:hover': {
+      backgroundColor: '#386EDA',
+      borderColor: '#386EDA',
+      color: '#FFFFFF',
+    },
+  },
+}))(Button);
 
 owasp.config({
   minLength: 8,
@@ -170,6 +187,16 @@ export default class Signup extends Component {
       <div
         style={{ display: 'inline-block', color: 'blue', cursor: 'pointer' }}
       >
+        {this.props.signedOut && (
+          <LandingButton
+            onClick={() => {
+              handleSignupShow();
+              CreateAccHandler();
+            }}
+          >
+            Sign Up
+          </LandingButton>
+        )}
         {this.props.onLanding && (
           <a
             onClick={() => {
@@ -180,7 +207,7 @@ export default class Signup extends Component {
             Create your account
           </a>
         )}
-        {!this.props.onLanding && (
+        {!this.props.admin && (
           <IconButton
             aria-label="add new user"
             size="small"
