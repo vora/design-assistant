@@ -8,7 +8,7 @@ import {
   TableHead,
   Paper,
   Chip,
-  Button,
+  TablePagination,
 } from '@material-ui/core';
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -27,6 +27,9 @@ export default function AssessmentGrid(props) {
   const { submission, userName, handleDelete } = props;
   const classes = useStyles();
   const theme = useTheme();
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   function createData(name, status, assessmentType, risk, date, action) {
     return { name, status, assessmentType, risk, date, action };
@@ -50,6 +53,10 @@ export default function AssessmentGrid(props) {
         return classes.highRisk;
       default:
     }
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
   return (
@@ -76,52 +83,53 @@ export default function AssessmentGrid(props) {
             ))}
           </TableHead>
           <TableBody>
-            {submission.map((submissions, i) => (
-              <StyledTableRow stripedRows key={i}>
-                <StyledTableCell className={classes.anthemBlue}>
-                  {submissions.projectName}
-                </StyledTableCell>
-                <StyledTableCell>{userName}</StyledTableCell>
+            {submission
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((submissions, i) => (
+                <StyledTableRow stripedRows key={i}>
+                  <StyledTableCell className={classes.anthemBlue}>
+                    {submissions.projectName}
+                  </StyledTableCell>
+                  <StyledTableCell>{userName}</StyledTableCell>
 
-                <StyledTableCell>
-                  {/* <Chip
-                  color="success"
-                  label={data.risk}
-                  className={handleChipColor(data.risk)}
-                  ></Chip> */}
-                </StyledTableCell>
-                {/* <StyledTableCell>{data.actionDate}</StyledTableCell> */}
-                <StyledTableCell>
-                  {submissions.completed ? 'Completed' : 'In Progress'}
-                  <CaptionTypography>
-                    {' '}
-                    {new Date(submissions.date).toLocaleString('en-US', {
-                      timeZone:
-                        Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ??
-                        'UTC',
-                    })}
-                  </CaptionTypography>
-                </StyledTableCell>
-                <StyledTableCell>
-                  {!submissions.completed && (
-                    <div>
-                      <DeleteRounded
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          handleDelete();
-                        }}
-                      />
-                    </div>
-                  )}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell>
+                    {submissions.completed ? 'Completed' : 'In Progress'}
+                    <CaptionTypography>
+                      {' '}
+                      {new Date(submissions.date).toLocaleString('en-US', {
+                        timeZone:
+                          Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ??
+                          'UTC',
+                      })}
+                    </CaptionTypography>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {!submissions.completed && (
+                      <div>
+                        <DeleteRounded
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            handleDelete();
+                          }}
+                        />
+                      </div>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
       <Box mt={10} />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <Pagination />
+        <TablePagination
+          count={submission.length}
+          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          page={page}
+        />
       </div>
     </div>
   );
