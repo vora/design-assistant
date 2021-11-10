@@ -20,6 +20,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getLoggedInUser } from '../helper/AuthHelper';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { AssessmentStepper } from '../Components/AssessmentStepper';
 
 // set up survey styles and properties for rendering html
 Survey.StylesManager.applyTheme('bootstrapmaterial');
@@ -394,7 +395,8 @@ class DesignAssistantSurvey extends Component {
   }
 
   navPage(pageNumber) {
-    const survey = this.state.model;
+    console.log(pageNumber);
+    const survey = this.state?.model;
     survey.currentPage = survey.pages[pageNumber];
     this.setState(this.state);
   }
@@ -448,45 +450,12 @@ class DesignAssistantSurvey extends Component {
     return this.state.model ? (
       <div>
         <div className="dimensionNav">
-          <Accordion>
-            {this.state.dimArray.map((dimension, index) => {
-              return (
-                <Card key={index}>
-                  <Accordion.Toggle as={Card.Header} eventKey={index + 1}>
-                    {dimension}
-                  </Accordion.Toggle>
-                  <Accordion.Collapse eventKey={index + 1}>
-                    <Card.Body>
-                      {this?.state?.json?.pages?.map((page, index) => {
-                        return page.name
-                          .toLowerCase()
-                          .includes(dimension.substring(0, 4).toLowerCase())
-                          ? page.elements.map((question, i) => {
-                            return !question.name.includes('other') &&
-                              (!question.visibleIf ||
-                                this.shouldDisplayNav(question)) ? (
-                              <Button
-                                style={{ margin: '0.75em' }}
-                                key={i}
-                                id={
-                                  this.state.model.data[question.name]
-                                    ? 'answered'
-                                    : 'unanswered'
-                                }
-                                onClick={() => this.navPage(index)}
-                              >
-                                {question.visibleIf ? '' : number++}
-                              </Button>
-                            ) : null;
-                          })
-                          : null;
-                      })}
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-              );
-            })}
-          </Accordion>
+          <AssessmentStepper
+            dimArray={this.state.dimArray}
+            pages={this.state.json.pages}
+            model={this.state.model}
+            onStepClick={this.navPage.bind(this)}
+          />
           <Accordion className="questionFilter">
             <Card>
               <Accordion.Toggle as={Card.Header} eventKey="9">
@@ -614,17 +583,15 @@ class DesignAssistantSurvey extends Component {
             </Card>
           </Accordion>
         </div>
-        <div className="container" style={{ paddingTop: '2em' }}>
-          <div className="d-flex justify-content-center col">
-            {this.percent()}%
-          </div>
+        <div className="container" style={{ paddingTop: '2em' }}></div>
+        <div className="container">
+          {this.state.mount ? (
+            <Survey.Survey
+              model={this.state.model}
+              onComplete={this.onComplete}
+            />
+          ) : null}
         </div>
-        {this.state.mount ? (
-          <Survey.Survey
-            model={this.state.model}
-            onComplete={this.onComplete}
-          />
-        ) : null}
         <div id="navCon" className="container">
           <div id="navCard" className="card">
             <div className="row no-gutters">

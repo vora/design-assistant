@@ -267,10 +267,10 @@ form .btn:not(.btn-call-to-action) {
   .dimensionNav {
     position: absolute;
     left: 3em;
-    top: 14.5em;
+    top: 11em;
     z-index: 5;
-    max-width: 18em;
-    min-width: 18em;
+    max-width: 19em;
+    min-width: 19em;
   }
 
   .questionFilter {
