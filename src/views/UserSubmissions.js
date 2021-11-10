@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getLoggedInUser } from '../helper/AuthHelper';
-import { Button, Box } from '@material-ui/core';
+import { Button, Box, CircularProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AssessmentGrid from '../Components/AssessmentGrid';
 import Assessment from '../Components/Assessment';
@@ -48,6 +48,7 @@ class UserSubmissions extends Component {
   }
 
   componentDidMount() {
+    this.state.isLoggedIn = true;
     // get the logged in user and their submissions from backend
     getLoggedInUser().then((user) => {
       if (user) {
@@ -56,15 +57,13 @@ class UserSubmissions extends Component {
         console.log(this.state.collabRole);
         api
           .get('submissions/' + this.state.collabRole)
-          // .get('submissions/user/' + user._id)
 
           .then((res) => {
             var submissions = res.data;
-            console.log(submissions);
             this.setState(submissions);
           });
+        // this.state.isLoggedIn = true;
       }
-      this.state.isLoggedIn = true;
     });
   }
 
@@ -201,7 +200,6 @@ class UserSubmissions extends Component {
                 }}
               >
                 <Signup signedOut={true} admin={true} />
-
                 <LandingButton
                   variant="outlined"
                   type="button"

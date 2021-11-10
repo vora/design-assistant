@@ -76,13 +76,13 @@ export default function AssessmentGrid(props) {
         elevation={4}
       >
         <div className={classes.searchPadding}>
-          <SearchBar
+          {/* <SearchBar
             variant="outlined"
             placeholder="Search resources"
             InputProps={{
               startAdornment: <Search />,
             }}
-          />
+          /> */}
         </div>
 
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
