@@ -24,7 +24,7 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { submission, userName, handleDelete } = props;
+  const { submission, userName, handleDelete, collabRole } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -61,6 +61,9 @@ export default function AssessmentGrid(props) {
 
   return (
     <div>
+      {console.log(collabRole)}
+      {console.log(userName)}
+
       <TableContainer
         className={classes.tableContainer}
         component={Paper}
@@ -90,7 +93,7 @@ export default function AssessmentGrid(props) {
                   <StyledTableCell className={classes.anthemBlue}>
                     {submissions.projectName}
                   </StyledTableCell>
-                  <StyledTableCell>{userName}</StyledTableCell>
+                  <StyledTableCell>{userName} </StyledTableCell>
 
                   <StyledTableCell></StyledTableCell>
                   <StyledTableCell>
@@ -107,12 +110,14 @@ export default function AssessmentGrid(props) {
                   <StyledTableCell>
                     {!submissions.completed && (
                       <div>
-                        <DeleteRounded
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            handleDelete();
-                          }}
-                        />
+                        {collabRole !== 'legalCompliance' && (
+                          <DeleteRounded
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              handleDelete();
+                            }}
+                          />
+                        )}
                       </div>
                     )}
                   </StyledTableCell>

@@ -271,14 +271,16 @@ class UserSubmissions extends Component {
                   width: '50%',
                 }}
               >
-                <LandingButton
-                  variant="outlined"
-                  type="button"
-                  onClick={() => this.startSurvey()}
-                >
-                  Start Assessment
-                </LandingButton>
-
+                {this.state?.user?.collabRoles !== 'legalCompliance' ||
+                  (this.state?.user?.collabRoles !== 'productOwner' && (
+                    <LandingButton
+                      variant="outlined"
+                      type="button"
+                      onClick={() => this.startSurvey()}
+                    >
+                      Start Assessment
+                    </LandingButton>
+                  ))}
                 <LandingButton
                   variant="outlined"
                   type="button"
@@ -305,7 +307,7 @@ class UserSubmissions extends Component {
                 <AssessmentGrid
                   submission={this.state.submissions}
                   userName={this.state?.user?.username}
-                  collabRole={this.state?.user?.collabRole}
+                  collabRole={this.state?.user?.collabRoles}
                   handleDelete={() => this.deleteSurvey()}
                 ></AssessmentGrid>
                 <Box mt={4} />
