@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 
 import Pagination from '@material-ui/lab/Pagination';
-import { Search, DeleteRounded } from '@material-ui/icons';
+import { Search, DeleteRounded, AccountBox } from '@material-ui/icons';
 import { useTheme } from '@material-ui/core/styles';
 
 import {
@@ -24,7 +24,13 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { submission, userName, handleDelete, collabRole } = props;
+  const {
+    submission,
+    userName,
+    handleDelete,
+    collabRole,
+    handleResume,
+  } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -109,15 +115,28 @@ export default function AssessmentGrid(props) {
                   </StyledTableCell>
                   <StyledTableCell>
                     {!submissions.completed && (
-                      <div>
-                        {collabRole !== 'legalCompliance' && (
-                          <DeleteRounded
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              handleDelete();
-                            }}
-                          />
-                        )}
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          width: '50%',
+                        }}
+                      >
+                        {/* {collabRole !== 'legalCompliance' && ( */}
+                        <DeleteRounded
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            handleDelete();
+                          }}
+                        />
+                        {/* )} */}
+                        <AccountBox
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            handleResume(i);
+                          }}
+                        />
                       </div>
                     )}
                   </StyledTableCell>
