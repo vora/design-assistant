@@ -62,7 +62,6 @@ class UserSubmissions extends Component {
             var submissions = res.data;
             this.setState(submissions);
           });
-        // this.state.isLoggedIn = true;
       }
     });
   }

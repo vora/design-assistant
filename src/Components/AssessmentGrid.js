@@ -67,25 +67,11 @@ export default function AssessmentGrid(props) {
 
   return (
     <div>
-      {console.log(collabRole)}
-      {console.log(userName)}
-
       <TableContainer
         className={classes.tableContainer}
         component={Paper}
         elevation={4}
       >
-        <div className={classes.searchPadding}>
-          {/* return to add search bar for v2 */}
-          {/* <SearchBar
-            variant="outlined"
-            placeholder="Search resources"
-            InputProps={{
-              startAdornment: <Search />,
-            }}
-          /> */}
-        </div>
-
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             {rowTitle.map((title, i) => (

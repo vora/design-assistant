@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Modal, Form } from 'react-bootstrap';
-// import { Modal, Form, Button } from 'react-bootstrap';
-
 import { Button } from '@material-ui/core';
 
 import '../css/login.css';
@@ -173,7 +171,6 @@ export default class Login extends Component {
                 value="Login"
               />
             </Form>
-            {/* TODO: remove this once ready for more users */}
             <div className="create-account">
               <p className="disabled">Not a member yet?&nbsp;</p>
               <Signup onLanding={true} signedOut={false} admin={true} />
