@@ -13,6 +13,14 @@ export const AssessmentStepper = ({ dimArray, onStepClick, pages, model }) => {
   const [overallProgress, setOverallProgress] = useState(0);
 
   useEffect(() => {
+    dimArray.map((dimension, index) => {
+      if (model.currentPageNo === getFirstPageOfDimension(dimension)) {
+        setActiveStep(index);
+      }
+    });
+  }, [model.currentPageNo]);
+
+  useEffect(() => {
     //calculate overall progress by comparing all questions against answered (stored in model.data from parent state)
     let answeredCount = 0;
     const questionCount = pages?.reduce((acc, page) => {

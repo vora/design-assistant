@@ -59,6 +59,7 @@ class DesignAssistantSurvey extends Component {
       submission_id: this?.props?.location?.state?.submission_id,
       user_id: this?.props?.location?.state?.user_id,
       localResponses: JSON.parse(localStorage.getItem('localResponses')),
+      currentPageIndex: null,
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
