@@ -525,7 +525,7 @@ class DesignAssistantSurvey extends Component {
             </Button>
           </div>
         ) : (
-          <div className="container">
+          <div>
             <div className="dimensionNav">
               <AssessmentStepper
                 dimArray={this.state.dimArray}
@@ -669,16 +669,14 @@ class DesignAssistantSurvey extends Component {
                 </Card>
               </Accordion>
             </div>
-            <div className="container" style={{ paddingTop: '2em' }}>
-              <div className="d-flex justify-content-center col">
-                {this.percent()}%
-              </div>
-            </div>
+            <div className="container" style={{ paddingTop: '2em' }}></div>
             {this.state.mount ? (
-              <Survey.Survey
-                model={this.state.model}
-                onComplete={this.onComplete}
-              />
+              <div className="container">
+                <Survey.Survey
+                  model={this.state.model}
+                  onComplete={this.onComplete}
+                />
+              </div>
             ) : null}
           </div>
         )}
