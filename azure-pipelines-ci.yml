@@ -29,11 +29,11 @@ steps:
     inputs:
       Contents: 'api/**' # Pull the build directory (React)
       TargetFolder: '$(Build.ArtifactStagingDirectory)/build'
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: 'src'
-      Contents: '*.js'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/build'
+#  - task: CopyFiles@2
+#    inputs:
+#      SourceFolder: 'src'
+#      Contents: '*.js'
+#      TargetFolder: '$(Build.ArtifactStagingDirectory)/build'
   - task: ArchiveFiles@2
     inputs:
       rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/build/'
