@@ -65,6 +65,12 @@ export default function AssessmentGrid(props) {
     setPage(newPage);
   };
 
+  console.log(submission);
+
+  const map1 = submission.users?.map((x) => x.role);
+
+  console.log(map1);
+
   return (
     <div>
       <TableContainer
@@ -86,7 +92,9 @@ export default function AssessmentGrid(props) {
                   <StyledTableCell className={classes.anthemBlue}>
                     {submissions.projectName}
                   </StyledTableCell>
-                  <StyledTableCell>{userName} </StyledTableCell>
+                  <StyledTableCell>
+                    {submissions.users.username}
+                  </StyledTableCell>
 
                   <StyledTableCell>
                     <Chip
