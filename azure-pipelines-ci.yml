@@ -32,7 +32,7 @@ steps:
   - task: CopyFiles@2
     inputs:
       SourceFolder: 'src'
-      Contents: 'src/*.js'
+      Contents: '*.js'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/build'
   - task: ArchiveFiles@2
     inputs:
