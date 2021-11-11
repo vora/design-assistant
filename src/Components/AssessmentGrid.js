@@ -65,12 +65,6 @@ export default function AssessmentGrid(props) {
     setPage(newPage);
   };
 
-  console.log(submission);
-
-  const map1 = submission.users?.map((x) => x.role);
-
-  console.log(map1);
-
   return (
     <div>
       <TableContainer
