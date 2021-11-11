@@ -19,13 +19,21 @@ const QuestionSchema = mongoose.Schema({
 
   questionType: {
     type: String,
-    enum: ['risk', 'mitigation', 'organization','tombstone'],
+    enum: ['risk', 'mitigation', 'organization', 'tombstone'],
   },
 
   // question text
   question: {
     type: String,
     required: true,
+  },
+
+  removeIfNoUser: {
+    type: Boolean
+  },
+
+  removeIfUserSubject: {
+    type: Boolean
   },
 
   alt_text: {

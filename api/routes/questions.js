@@ -348,6 +348,27 @@ async function applyFilters(questions, filters) {
     }
   }
 
+  if (filters.userType) {
+    switch (filters.userType) {
+      case 'noUser':
+        for (let dim of Object.keys(questions).filter(
+          (k) => String(k) !== '1'
+        )) {
+          questions[dim] = questions[dim].filter((q) => !q.removeIfNoUser);
+        }
+        break;
+      case 'userIsData':
+        for (let dim of Object.keys(questions).filter(
+          (k) => String(k) !== '1'
+        )) {
+          questions[dim] = questions[dim].filter((q) => !q.removeIfUserSubject);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   return questions;
 }
 
@@ -381,6 +402,7 @@ async function createPages(q, filters) {
 
   // Apply domain, region, role, lifecycle filter to questions
   dimQuestions = await applyFilters(dimQuestions, filters);
+
 
   // Add Other question to tombstone and create page
   dimQuestions[1].push({
@@ -463,7 +485,10 @@ router.get('/', async (req, res) => {
       pages = await createPages(questions, filters);
       res.status(200).send(pages);
     })
-    .catch((err) => res.status(400).send(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 });
 
 // Get all questions as JSON from DB. No Assembly for SurveyJS
