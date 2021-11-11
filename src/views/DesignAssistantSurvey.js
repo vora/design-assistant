@@ -477,7 +477,7 @@ class DesignAssistantSurvey extends Component {
                   type="radio"
                   value="userNotData"
                   name="userQuestion"
-                  onChange={() => this.updateUserAnswer('userNotData')}
+                  onChange={(event) => this.updateUserAnswer(event.target.value)}
                 />
                 <label for="userNotData" style={{ paddingLeft: '10px' }}>
                   User and data subject are two separate individuals (e.g.
@@ -489,7 +489,7 @@ class DesignAssistantSurvey extends Component {
                   type="radio"
                   value="userIsData"
                   name="userQuestion"
-                  onChange={() => this.updateUserAnswer('userIsData')}
+                  onChange={(event) => this.updateUserAnswer(event.target.value)}
                 />
                 <label for="userIsData" style={{ paddingLeft: '10px' }}>
                   User and data subject are the same individual (e.g. interactive
@@ -501,7 +501,7 @@ class DesignAssistantSurvey extends Component {
                   type="radio"
                   value="noUser"
                   name="userQuestion"
-                  onChange={() => this.updateUserAnswer('noUser')}
+                  onChange={(event) => this.updateUserAnswer(event.target.value)}
                 />
                 <label for="noUser" style={{ paddingLeft: '10px' }}>
                   There is no user (e.g. AI system used to automate some
