@@ -180,77 +180,79 @@ class UserSubmissions extends Component {
 
   render() {
     const handleClose = () => this.setState({ showDeleteWarning: false });
-    return (
-      <div>
-        {!this.state.isLoggedIn ? (
-          <div>
+
+    if (!this.state.isLoggedIn) {
+      return (
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+            }}
+          >
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width: '50%',
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  width: '50%',
-                }}
+              <Signup signedOut={true} admin={true} />
+              <LandingButton
+                variant="outlined"
+                type="button"
+                href={guidancePath}
               >
-                <Signup signedOut={true} admin={true} />
-                <LandingButton
-                  variant="outlined"
-                  type="button"
-                  href={guidancePath}
-                >
-                  GUIDE LINK
-                </LandingButton>
-              </div>
-              <Box mt={1} />
+                GUIDE LINK
+              </LandingButton>
             </div>
-            <Box mt={10} />
+            <Box mt={1} />
+          </div>
+          <Box mt={10} />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              height: '400px',
+            }}
+          >
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-                height: '400px',
+                flexDirection: 'column',
+                width: '50%',
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '50%',
-                }}
-              >
-                With‌ ‌our‌ ‌esteemed‌ ‌community‌ ‌of‌ ‌subject‌ ‌matter‌
-                ‌experts‌ ‌ranging‌ ‌from‌ ‌engineers,‌ ‌to‌ ethicists,‌ ‌to‌
-                ‌policy‌ ‌makers,‌ ‌we‌ ‌have‌ ‌taken‌ ‌the‌ ‌most‌ ‌cited‌
-                ‌principles,‌ ‌whitepapers,‌ ‌and‌ policy‌ ‌documents‌
-                ‌published‌ ‌by‌ ‌academics,‌ ‌standards‌ ‌organizations,‌ ‌and‌
-                ‌companies‌ and‌ ‌translated‌ ‌them‌ ‌into‌ ‌comprehensive‌
-                ‌questions.‌
-                <Box mt={5} />
-                <div>
-                  Our‌ ‌hope‌ ‌is‌ ‌that‌ ‌you‌ ‌will‌ ‌work‌ ‌with‌ ‌your‌
-                  ‌colleagues‌ ‌who‌ ‌are‌ ‌responsible‌ ‌for‌ ‌different‌
-                  aspects‌ ‌of‌ ‌your‌ ‌business‌ ‌to‌ ‌fill‌ ‌out‌ ‌the‌
-                  ‌Design‌ ‌Assistant.‌ ‌Whether‌ ‌you‌ ‌are‌ ‌just‌ ‌thinking‌
-                  about‌ ‌how‌ ‌to‌ ‌integrate‌ ‌AI‌ ‌tools‌ ‌into‌ ‌your‌
-                  ‌business,‌ ‌or‌ ‌you‌ ‌have‌ ‌already‌ ‌deployed‌ several‌
-                  ‌models,‌ ‌this‌ ‌tool‌ ‌is‌ ‌for‌ ‌you.‌ ‌We‌ ‌do‌ ‌think‌
-                  ‌that‌ ‌these‌ ‌questions‌ ‌are‌ ‌best‌ ‌to‌ ‌think‌ about‌
-                  ‌at‌ ‌the‌ ‌start‌ ‌of‌ ‌your‌ ‌project,‌ ‌however,‌ ‌we‌ ‌do‌
-                  ‌think‌ ‌that‌ ‌the‌ ‌Design‌ ‌Assistant‌ ‌can‌ ‌be‌ used‌
-                  ‌throughout‌ ‌the‌ ‌lifecycle‌ ‌of‌ ‌your‌ ‌project!‌
-                </div>
+              With‌ ‌our‌ ‌esteemed‌ ‌community‌ ‌of‌ ‌subject‌ ‌matter‌
+              ‌experts‌ ‌ranging‌ ‌from‌ ‌engineers,‌ ‌to‌ ethicists,‌ ‌to‌
+              ‌policy‌ ‌makers,‌ ‌we‌ ‌have‌ ‌taken‌ ‌the‌ ‌most‌ ‌cited‌
+              ‌principles,‌ ‌whitepapers,‌ ‌and‌ policy‌ ‌documents‌ ‌published‌
+              ‌by‌ ‌academics,‌ ‌standards‌ ‌organizations,‌ ‌and‌ ‌companies‌
+              and‌ ‌translated‌ ‌them‌ ‌into‌ ‌comprehensive‌ ‌questions.‌
+              <Box mt={5} />
+              <div>
+                Our‌ ‌hope‌ ‌is‌ ‌that‌ ‌you‌ ‌will‌ ‌work‌ ‌with‌ ‌your‌
+                ‌colleagues‌ ‌who‌ ‌are‌ ‌responsible‌ ‌for‌ ‌different‌
+                aspects‌ ‌of‌ ‌your‌ ‌business‌ ‌to‌ ‌fill‌ ‌out‌ ‌the‌ ‌Design‌
+                ‌Assistant.‌ ‌Whether‌ ‌you‌ ‌are‌ ‌just‌ ‌thinking‌ about‌
+                ‌how‌ ‌to‌ ‌integrate‌ ‌AI‌ ‌tools‌ ‌into‌ ‌your‌ ‌business,‌
+                ‌or‌ ‌you‌ ‌have‌ ‌already‌ ‌deployed‌ several‌ ‌models,‌ ‌this‌
+                ‌tool‌ ‌is‌ ‌for‌ ‌you.‌ ‌We‌ ‌do‌ ‌think‌ ‌that‌ ‌these‌
+                ‌questions‌ ‌are‌ ‌best‌ ‌to‌ ‌think‌ about‌ ‌at‌ ‌the‌ ‌start‌
+                ‌of‌ ‌your‌ ‌project,‌ ‌however,‌ ‌we‌ ‌do‌ ‌think‌ ‌that‌ ‌the‌
+                ‌Design‌ ‌Assistant‌ ‌can‌ ‌be‌ used‌ ‌throughout‌ ‌the‌
+                ‌lifecycle‌ ‌of‌ ‌your‌ ‌project!‌
               </div>
             </div>
           </div>
-        ) : (
+        </div>
+      );
+    } else {
+      return (
+        <div>
           <div>
             <Box mt={10} />
             <div
@@ -313,9 +315,10 @@ class UserSubmissions extends Component {
             </div>
             <Box mt={4} />
           </div>
-        )}
-      </div>
-    );
+          )}
+        </div>
+      );
+    }
   }
 }
 
