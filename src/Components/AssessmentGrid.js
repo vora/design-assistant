@@ -76,6 +76,7 @@ export default function AssessmentGrid(props) {
         elevation={4}
       >
         <div className={classes.searchPadding}>
+          {/* return to add search bar for v2 */}
           {/* <SearchBar
             variant="outlined"
             placeholder="Search resources"
@@ -101,7 +102,12 @@ export default function AssessmentGrid(props) {
                   </StyledTableCell>
                   <StyledTableCell>{userName} </StyledTableCell>
 
-                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell>
+                    <Chip
+                      label="Low Risk"
+                      className={handleChipColor('Low Risk')}
+                    ></Chip>
+                  </StyledTableCell>
                   <StyledTableCell>
                     {submissions.completed ? 'Completed' : 'In Progress'}
                     <CaptionTypography>
