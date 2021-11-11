@@ -44,7 +44,7 @@ router.get('/:collabRole', async (req, res) => {
       },
       {
         $match: {
-          'users.collabRoles': req.params.collabRole,
+          'users.collabRole': req.params.collabRole,
         },
       },
     ])

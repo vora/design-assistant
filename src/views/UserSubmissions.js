@@ -53,7 +53,9 @@ class UserSubmissions extends Component {
     getLoggedInUser().then((user) => {
       if (user) {
         this.setState({ user: user });
-        this.setState({ collabRole: user.collabRoles });
+        this.setState({ collabRole: user.collabRole });
+        console.log(this.state.user);
+
         console.log(this.state.collabRole);
         api
           .get('submissions/' + this.state.collabRole)
@@ -61,6 +63,7 @@ class UserSubmissions extends Component {
           .then((res) => {
             var submissions = res.data;
             this.setState(submissions);
+            console.log(this.state.submissions);
           });
       }
     });
@@ -270,7 +273,7 @@ class UserSubmissions extends Component {
                   width: '50%',
                 }}
               >
-                {this.state?.user?.collabRoles !== 'legalCompliance' && (
+                {this.state?.user?.collabRole !== 'legalCompliance' && (
                   <LandingButton
                     variant="outlined"
                     type="button"
@@ -305,7 +308,7 @@ class UserSubmissions extends Component {
                 <AssessmentGrid
                   submission={this.state.submissions}
                   userName={this.state?.user?.username}
-                  collabRole={this.state?.user?.collabRoles}
+                  collabRole={this.state?.user?.collabRole}
                   handleDelete={() => this.deleteSurvey()}
                   handleResume={(index) => this.resumeSurvey(index)}
                 ></AssessmentGrid>
