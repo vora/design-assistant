@@ -54,16 +54,12 @@ class UserSubmissions extends Component {
       if (user) {
         this.setState({ user: user });
         this.setState({ collabRole: user.collabRole });
-        console.log(this.state.user);
-
-        console.log(this.state.collabRole);
         api
           .get('submissions/' + this.state.collabRole)
 
           .then((res) => {
             var submissions = res.data;
             this.setState(submissions);
-            console.log(this.state.submissions);
           });
       }
     });
