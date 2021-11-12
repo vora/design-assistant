@@ -24,13 +24,7 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const {
-    submission,
-    userName,
-    handleDelete,
-    collabRole,
-    handleResume,
-  } = props;
+  const { submissions, handleDelete, collabRole, handleResume } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -79,16 +73,14 @@ export default function AssessmentGrid(props) {
             ))}
           </TableHead>
           <TableBody>
-            {submission
+            {submissions
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((submissions, i) => (
+              .map((submission, i) => (
                 <StyledTableRow stripedRows key={i}>
                   <StyledTableCell className={classes.anthemBlue}>
-                    {submissions.projectName}
+                    {submission.projectName}
                   </StyledTableCell>
-                  <StyledTableCell>
-                    {submissions.users.username}
-                  </StyledTableCell>
+                  <StyledTableCell>{submission.users.username}</StyledTableCell>
 
                   <StyledTableCell>
                     <Chip
@@ -97,10 +89,10 @@ export default function AssessmentGrid(props) {
                     ></Chip>
                   </StyledTableCell>
                   <StyledTableCell>
-                    {submissions.completed ? 'Completed' : 'In Progress'}
+                    {submission.completed ? 'Completed' : 'In Progress'}
                     <CaptionTypography>
                       {' '}
-                      {new Date(submissions.date).toLocaleString('en-US', {
+                      {new Date(submission.date).toLocaleString('en-US', {
                         timeZone:
                           Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ??
                           'UTC',
@@ -108,7 +100,7 @@ export default function AssessmentGrid(props) {
                     </CaptionTypography>
                   </StyledTableCell>
                   <StyledTableCell>
-                    {!submissions.completed && (
+                    {!submission.completed && (
                       <div
                         style={{
                           display: 'flex',
@@ -142,7 +134,7 @@ export default function AssessmentGrid(props) {
       <Box mt={10} />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         <TablePagination
-          count={submission.length}
+          count={submissions.length}
           rowsPerPageOptions={[5, 10, 25]}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
