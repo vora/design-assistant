@@ -1,21 +1,25 @@
+import React, { Component } from 'react';
 import $ from 'jquery';
 import api from '../api';
 import Login from './Login';
 import ReactGa from 'react-ga';
 import showdown from 'showdown';
 import * as Survey from 'survey-react';
-import Card from 'react-bootstrap/Card';
-import { Button, Form } from 'react-bootstrap';
-import React, { Component } from 'react';
-import Modal from 'react-bootstrap/Modal';
+import {
+  Card,
+  Form,
+  Accordion,
+  ModalBody,
+  ModalTitle,
+  ModalFooter,
+  DropdownButton,
+  Modal,
+} from 'react-bootstrap';
+import { Button } from '@material-ui/core';
+
 import * as widgets from 'surveyjs-widgets';
 import { withRouter } from 'react-router-dom';
-import Accordion from 'react-bootstrap/Accordion';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import ModalFooter from 'react-bootstrap/ModalFooter';
 import ModalHeader from 'react-bootstrap/ModalHeader';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import { ToastContainer, toast } from 'react-toastify';
 import { getLoggedInUser } from '../helper/AuthHelper';
 
@@ -518,6 +522,8 @@ class DesignAssistantSurvey extends Component {
               </div>
             </fieldset>
             <Button
+              variant="contained"
+              color="primary"
               onClick={() => this.submitUserQuestion()}
               style={{ marginTop: '20px' }}
             >
@@ -686,8 +692,8 @@ class DesignAssistantSurvey extends Component {
               <div className="row no-gutters">
                 <div className="d-flex justify-content-start col">
                   <Button
-                    id="resetButton"
-                    className="btn btn-primary mr-2"
+                    variant="contained"
+                    color="primary"
                     onClick={this.handleOpenModal}
                   >
                     Reset
@@ -695,16 +701,18 @@ class DesignAssistantSurvey extends Component {
                 </div>
                 <div className="d-flex justify-content-center col">
                   <Button
-                    id="surveyNav"
-                    className="btn btn-primary mr-2"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.prevPage()}
                     disabled={this.state.model.isFirstPage}
                   >
                     Prev
                   </Button>
                   <Button
-                    id="surveyNav"
-                    className="btn btn-primary mr-2"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.nextPage()}
                     disabled={this.state.model.isLastPage}
                   >
@@ -713,14 +721,17 @@ class DesignAssistantSurvey extends Component {
                 </div>
                 <div className="d-flex justify-content-end col">
                   <Button
-                    className="btn btn-save mr-2"
-                    id="saveButton"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.save()}
                   >
                     Save
                   </Button>
                   <Button
-                    className="bt btn-primary"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.finish()}
                   >
                     Finish

@@ -13,7 +13,7 @@ export const AssessmentStepper = ({ dimArray, onStepClick, pages, model }) => {
   const [overallProgress, setOverallProgress] = useState(0);
 
   useEffect(() => {
-    dimArray.map((dimension, index) => {
+    dimArray.find((dimension, index) => {
       if (model.currentPageNo === getFirstPageOfDimension(dimension)) {
         setActiveStep(index);
       }
@@ -88,7 +88,7 @@ export const AssessmentStepper = ({ dimArray, onStepClick, pages, model }) => {
         {dimArray.map((dimension, index) => {
           const pageIndex = getFirstPageOfDimension(dimension);
           return (
-            <Step key={dimension}>
+            <Step key={dimension} expanded={true}>
               <StepButton onClick={() => handleStepClick(index, pageIndex)}>
                 <Label variant="subtitle1">{dimension}</Label>
               </StepButton>
