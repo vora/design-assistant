@@ -100,9 +100,9 @@ export default class Signup extends Component {
 
     let result = owasp.test(password);
     if (!result.strong) {
-      return {
+      this.setState({
         password: { isInvalid: true, message: result.errors.join('\n') },
-      };
+      });
     }
 
     if (password !== passwordConfirmation) {
@@ -292,7 +292,9 @@ export default class Signup extends Component {
                   </option>
 
                   {roleOptions.map((option) => (
-                    <option value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
                   ))}
                 </Form.Control>
               </Form.Group>
