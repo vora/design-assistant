@@ -27,11 +27,15 @@ jobs:
           npm run build --if-present
           npm run test --if-present
       
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+      - name: Copy Directory
+        # You may pin to the exact commit or the version.
+        # uses: MadaraUchiha/copy-action@7ddff6fc153a2ea2cd0fb88ed9750544c051e399
+        uses: MadaraUchiha/copy-action@0.0.1
         with:
-          name: node-app
-          path: app/*
+          # Source file
+          source: api
+          # Target file
+          target: build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
