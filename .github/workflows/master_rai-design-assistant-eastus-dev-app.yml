@@ -33,7 +33,7 @@ jobs:
         uses: canastro/copy-file-action@master
         with:
           # Source file
-          source: api/**/*
+          source: api
           # Target file
           target: build
 
