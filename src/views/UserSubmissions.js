@@ -55,7 +55,7 @@ class UserSubmissions extends Component {
         this.setState({ user: user });
         this.setState({ collabRole: user.collabRole });
         api
-          .get('submissions/' + this.state.collabRole)
+          .get('submissions/datascientist')
 
           .then((res) => {
             var submissions = res.data;
@@ -111,6 +111,7 @@ class UserSubmissions extends Component {
             region: submission.region,
             lifecycle: submission.lifecycle,
           },
+          userType: submission.userType,
         },
       });
     }

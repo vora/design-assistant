@@ -44,6 +44,10 @@ const SubmissionSchema = mongoose.Schema({
     required: true,
   },
 
+  userType: {
+    type: String,
+  },
+
   // TODO: Add test of schema to model
 });
 
