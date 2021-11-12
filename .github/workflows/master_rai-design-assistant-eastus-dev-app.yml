@@ -33,7 +33,7 @@ jobs:
         uses: MadaraUchiha/copy-action@0.0.1
         with:
           # Source file
-          source: api
+          source: api/**
           # Target file
           target: build
 
