@@ -1,25 +1,30 @@
+import React, { Component } from 'react';
 import $ from 'jquery';
 import api from '../api';
 import Login from './Login';
 import ReactGa from 'react-ga';
 import showdown from 'showdown';
 import * as Survey from 'survey-react';
-import Card from 'react-bootstrap/Card';
-import { Button, Form } from 'react-bootstrap';
-import React, { Component } from 'react';
-import Modal from 'react-bootstrap/Modal';
+import {
+  Card,
+  Form,
+  Accordion,
+  ModalBody,
+  ModalTitle,
+  ModalFooter,
+  DropdownButton,
+  Modal,
+} from 'react-bootstrap';
+import { Button } from '@material-ui/core';
+
 import * as widgets from 'surveyjs-widgets';
 import { withRouter } from 'react-router-dom';
-import Accordion from 'react-bootstrap/Accordion';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import ModalFooter from 'react-bootstrap/ModalFooter';
 import ModalHeader from 'react-bootstrap/ModalHeader';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import { ToastContainer, toast } from 'react-toastify';
 import { getLoggedInUser } from '../helper/AuthHelper';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { AssessmentStepper } from '../Components/AssessmentStepper';
 
 // set up survey styles and properties for rendering html
 Survey.StylesManager.applyTheme('bootstrapmaterial');
@@ -58,6 +63,7 @@ class DesignAssistantSurvey extends Component {
       submission_id: this?.props?.location?.state?.submission_id,
       user_id: this?.props?.location?.state?.user_id,
       localResponses: JSON.parse(localStorage.getItem('localResponses')),
+      currentPageIndex: null,
       userQuestionAnswered: false,
       userAnswer: null,
     };
@@ -126,7 +132,7 @@ class DesignAssistantSurvey extends Component {
           domains: this.state.domainFilters,
           regions: this.state.regionFilters,
           lifecycles: this.state.lifecycleFilters,
-          userType: this.state.userAnswer
+          userType: this.state.userAnswer,
         },
       })
       .then((res) => {
@@ -418,7 +424,7 @@ class DesignAssistantSurvey extends Component {
   }
 
   navPage(pageNumber) {
-    const survey = this.state.model;
+    const survey = this.state?.model;
     survey.currentPage = survey.pages[pageNumber];
     this.setState(this.state);
   }
@@ -469,7 +475,7 @@ class DesignAssistantSurvey extends Component {
 
   render() {
     var number = 1;
-    return (this.state.model || !this.state.userQuestionAnswered) ? (
+    return this.state.model || !this.state.userQuestionAnswered ? (
       <div>
         {!this.state.userQuestionAnswered ? (
           <div style={{ padding: '40px' }}>
@@ -485,7 +491,9 @@ class DesignAssistantSurvey extends Component {
                   type="radio"
                   value="userNotData"
                   name="userQuestion"
-                  onChange={(event) => this.updateUserAnswer(event.target.value)}
+                  onChange={(event) =>
+                    this.updateUserAnswer(event.target.value)
+                  }
                 />
                 <label for="userNotData" style={{ paddingLeft: '10px' }}>
                   User and data subject are two separate individuals (e.g.
@@ -497,11 +505,13 @@ class DesignAssistantSurvey extends Component {
                   type="radio"
                   value="userIsData"
                   name="userQuestion"
-                  onChange={(event) => this.updateUserAnswer(event.target.value)}
+                  onChange={(event) =>
+                    this.updateUserAnswer(event.target.value)
+                  }
                 />
                 <label for="userIsData" style={{ paddingLeft: '10px' }}>
-                  User and data subject are the same individual (e.g. interactive
-                  symptom checker operated by patient)
+                  User and data subject are the same individual (e.g.
+                  interactive symptom checker operated by patient)
                 </label>
               </div>
               <div>
@@ -509,7 +519,9 @@ class DesignAssistantSurvey extends Component {
                   type="radio"
                   value="noUser"
                   name="userQuestion"
-                  onChange={(event) => this.updateUserAnswer(event.target.value)}
+                  onChange={(event) =>
+                    this.updateUserAnswer(event.target.value)
+                  }
                 />
                 <label for="noUser" style={{ paddingLeft: '10px' }}>
                   There is no user (e.g. AI system used to automate some
@@ -517,52 +529,24 @@ class DesignAssistantSurvey extends Component {
                 </label>
               </div>
             </fieldset>
-            <Button onClick={() => this.submitUserQuestion()} style={{ marginTop: '20px' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => this.submitUserQuestion()}
+              style={{ marginTop: '20px' }}
+            >
               Start Survey
             </Button>
           </div>
         ) : (
           <div>
             <div className="dimensionNav">
-              <Accordion>
-                {this.state.dimArray.map((dimension, index) => {
-                  return (
-                    <Card key={index}>
-                      <Accordion.Toggle as={Card.Header} eventKey={index + 1}>
-                        {dimension}
-                      </Accordion.Toggle>
-                      <Accordion.Collapse eventKey={index + 1}>
-                        <Card.Body>
-                          {this?.state?.json?.pages?.map((page, index) => {
-                            return page.name
-                              .toLowerCase()
-                              .includes(dimension.substring(0, 4).toLowerCase())
-                              ? page.elements.map((question, i) => {
-                                return !question.name.includes('other') &&
-                                  (!question.visibleIf ||
-                                    this.shouldDisplayNav(question)) ? (
-                                  <Button
-                                    style={{ margin: '0.75em' }}
-                                    key={i}
-                                    id={
-                                      this.state.model.data[question.name]
-                                        ? 'answered'
-                                        : 'unanswered'
-                                    }
-                                    onClick={() => this.navPage(index)}
-                                  >
-                                    {question.visibleIf ? '' : number++}
-                                  </Button>
-                                ) : null;
-                              })
-                              : null;
-                          })}
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
-                  );
-                })}
-              </Accordion>
+              <AssessmentStepper
+                dimArray={this.state.dimArray}
+                pages={this.state.json.pages}
+                model={this.state.model}
+                onStepClick={this.navPage.bind(this)}
+              />
               <Accordion className="questionFilter">
                 <Card>
                   <Accordion.Toggle as={Card.Header} eventKey="9">
@@ -699,16 +683,14 @@ class DesignAssistantSurvey extends Component {
                 </Card>
               </Accordion>
             </div>
-            <div className="container" style={{ paddingTop: '2em' }}>
-              <div className="d-flex justify-content-center col">
-                {this.percent()}%
-              </div>
-            </div>
+            <div className="container" style={{ paddingTop: '2em' }}></div>
             {this.state.mount ? (
-              <Survey.Survey
-                model={this.state.model}
-                onComplete={this.onComplete}
-              />
+              <div className="container">
+                <Survey.Survey
+                  model={this.state.model}
+                  onComplete={this.onComplete}
+                />
+              </div>
             ) : null}
           </div>
         )}
@@ -718,8 +700,8 @@ class DesignAssistantSurvey extends Component {
               <div className="row no-gutters">
                 <div className="d-flex justify-content-start col">
                   <Button
-                    id="resetButton"
-                    className="btn btn-primary mr-2"
+                    variant="contained"
+                    color="primary"
                     onClick={this.handleOpenModal}
                   >
                     Reset
@@ -727,16 +709,18 @@ class DesignAssistantSurvey extends Component {
                 </div>
                 <div className="d-flex justify-content-center col">
                   <Button
-                    id="surveyNav"
-                    className="btn btn-primary mr-2"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.prevPage()}
                     disabled={this.state.model.isFirstPage}
                   >
                     Prev
                   </Button>
                   <Button
-                    id="surveyNav"
-                    className="btn btn-primary mr-2"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.nextPage()}
                     disabled={this.state.model.isLastPage}
                   >
@@ -745,14 +729,17 @@ class DesignAssistantSurvey extends Component {
                 </div>
                 <div className="d-flex justify-content-end col">
                   <Button
-                    className="btn btn-save mr-2"
-                    id="saveButton"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.save()}
                   >
                     Save
                   </Button>
                   <Button
-                    className="bt btn-primary"
+                    variant="contained"
+                    color="primary"
+                    className="mr-2"
                     onClick={() => this.finish()}
                   >
                     Finish
@@ -779,8 +766,19 @@ class DesignAssistantSurvey extends Component {
             </p>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={this.handleCloseModal}>No</Button>
-            <Button id="resetButton" onClick={() => this.resetSurvey()}>
+            <Button
+              variant="outlined"
+              color="primary"
+              className="mr-2"
+              onClick={this.handleCloseModal}
+            >
+              No
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => this.resetSurvey()}
+            >
               Yes
             </Button>
           </ModalFooter>

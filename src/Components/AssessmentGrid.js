@@ -8,12 +8,12 @@ import {
   TableHead,
   Paper,
   Chip,
+  TablePagination,
 } from '@material-ui/core';
 
 import Pagination from '@material-ui/lab/Pagination';
-import { Search, FileCopyRounded, DeleteRounded } from '@material-ui/icons';
+import { Search, DeleteRounded, AccountBox } from '@material-ui/icons';
 import { useTheme } from '@material-ui/core/styles';
-import assessmentGridData from '../assets/data/assessmentGridData.json';
 
 import {
   StyledTableCell,
@@ -24,9 +24,12 @@ import {
 } from './AssessmentGridStyle';
 
 export default function AssessmentGrid(props) {
-  const { expandButton } = props;
+  const { submissions, handleDelete, collabRole, handleResume } = props;
   const classes = useStyles();
   const theme = useTheme();
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   function createData(name, status, assessmentType, risk, date, action) {
     return { name, status, assessmentType, risk, date, action };
@@ -34,12 +37,10 @@ export default function AssessmentGrid(props) {
 
   const rowTitle = [
     'Project Name',
+    'Product Owner',
+    'Risk Level',
     'Status',
-    'Assessment Type',
-    'Risk Flag',
-    'Action Date',
     'Action',
-    '',
   ];
 
   const handleChipColor = (riskLevel) => {
@@ -54,6 +55,10 @@ export default function AssessmentGrid(props) {
     }
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <div>
       <TableContainer
@@ -61,16 +66,6 @@ export default function AssessmentGrid(props) {
         component={Paper}
         elevation={4}
       >
-        <div className={classes.searchPadding}>
-          <SearchBar
-            variant="outlined"
-            placeholder="Search resources"
-            InputProps={{
-              startAdornment: <Search />,
-            }}
-          />
-        </div>
-
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             {rowTitle.map((title, i) => (
@@ -78,43 +73,73 @@ export default function AssessmentGrid(props) {
             ))}
           </TableHead>
           <TableBody>
-            {assessmentGridData.map((data, i) => (
-              <StyledTableRow stripedRows key={i}>
-                <StyledTableCell className={classes.anthemBlue}>
-                  {data.name}
-                </StyledTableCell>
-                <StyledTableCell>
-                  {data.status ? 'Completed' : 'In Progress'}
-                  <CaptionTypography>{data.completedDate}</CaptionTypography>
-                </StyledTableCell>
-                <StyledTableCell>
-                  {data.assessmentType}
-                  <CaptionTypography>
-                    {data.assessmentSubType}
-                  </CaptionTypography>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <Chip
-                    color="success"
-                    label={data.risk}
-                    className={handleChipColor(data.risk)}
-                  ></Chip>
-                </StyledTableCell>
-                <StyledTableCell>{data.actionDate}</StyledTableCell>
-                <StyledTableCell className={classes.anthemBlue}>
-                  <FileCopyRounded className={classes.anthemBlue} /> Clone
-                </StyledTableCell>
-                <StyledTableCell>
-                  <DeleteRounded />
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {submissions
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((submission, i) => (
+                <StyledTableRow stripedRows key={i}>
+                  <StyledTableCell className={classes.anthemBlue}>
+                    {submission.projectName}
+                  </StyledTableCell>
+                  <StyledTableCell>{submission.users.username}</StyledTableCell>
+
+                  <StyledTableCell>
+                    <Chip
+                      label="Low Risk"
+                      className={handleChipColor('Low Risk')}
+                    ></Chip>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {submission.completed ? 'Completed' : 'In Progress'}
+                    <CaptionTypography>
+                      {' '}
+                      {new Date(submission.date).toLocaleString('en-US', {
+                        timeZone:
+                          Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ??
+                          'UTC',
+                      })}
+                    </CaptionTypography>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {!submission.completed && (
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          width: '50%',
+                        }}
+                      >
+                        {collabRole !== 'legalCompliance' && (
+                          <DeleteRounded
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              handleDelete();
+                            }}
+                          />
+                        )}
+                        <AccountBox
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            handleResume(i);
+                          }}
+                        />
+                      </div>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
       <Box mt={10} />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <Pagination count={10} />
+        <TablePagination
+          count={submissions.length}
+          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          page={page}
+        />
       </div>
     </div>
   );
