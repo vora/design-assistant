@@ -4,6 +4,10 @@
 * Autoprefixer: v9.7.6
 * Browsers: last 4 version
 */
+html,
+body {
+  height: 100%;
+}
 
 html {
   background-color: #262626;
@@ -74,10 +78,7 @@ html {
 }
 
 .copyright-footer {
-  position: relative;
-  bottom: 0px;
   width: 100%;
-  background-color: #262626;
 }
 
 .copyright {
@@ -422,4 +423,6 @@ input[type='number'] {
 }
 .mainContainer {
   width: 100%;
+  background-color: #ffffff;
+  flex-grow: 2;
 }
