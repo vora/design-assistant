@@ -320,7 +320,7 @@ class DesignAssistantSurvey extends Component {
     // so just make an update call
 
     let title = this.state.json?.pages[0]?.elements?.find(
-      (q) => q?.title?.default === 'Title of project'
+      (q) => q?.title?.default === 'Project Name'
     );
     let dateTime = new Date();
     let projectName = this.state.model.data[title?.name] ?? '';
@@ -354,6 +354,10 @@ class DesignAssistantSurvey extends Component {
     this.save(true);
     this.state.model.doComplete();
     this.nextPath('/Results/');
+    /**
+     * TODO: handle finding if user picked specific lifecycle method(s) 
+     * that should redirect to pilot report pdf instead of results
+     */
   }
 
   onComplete(survey, options) {
