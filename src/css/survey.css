@@ -40,7 +40,11 @@
 }
 
 p {
-  margin: 0 2px 25px !important;
+  margin: 0 0 25px !important;
+}
+
+.sv_q_radiogroup_control_label p {
+  margin-left: 3px !important;
 }
 
 .MuiToolbar-root p {
