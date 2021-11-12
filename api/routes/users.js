@@ -24,7 +24,7 @@ router.post('/create', async (req, res) => {
     passwordConfirmation,
     organization,
     role,
-    collabRoles,
+    collabRole,
   } = req.body;
 
   // create new user, send to db
@@ -34,7 +34,7 @@ router.post('/create', async (req, res) => {
     password,
     organization,
     role,
-    collabRoles,
+    collabRole,
   });
   await user
     .save()
