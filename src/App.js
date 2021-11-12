@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { expireAuthToken } from './helper/AuthHelper';
 import api from './api';
-import Assessment from './Components/Assessment';
 
 import 'nouislider/distribute/nouislider.min.css';
 
@@ -22,43 +21,45 @@ const backgroundImage = (img.src = '../img/landing-background.png');
 
 function WelcomeText() {
   return (
-    <div
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        width: '99.6vw',
-        height: '40vh',
-        position: 'relative',
-        left: '50%',
-        right: '50%',
-        top: '-100px',
-        marginLeft: '-50vw',
-        marginRight: '-50vw',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
-    >
+    <div>
       <div
         style={{
-          padding: '10em',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          backgroundImage: `url(${backgroundImage})`,
+          width: '99.6vw',
+          height: '40vh',
+          position: 'relative',
+          left: '50%',
+          right: '50%',
+          top: '-100px',
+          marginLeft: '-50vw',
+          marginRight: '-50vw',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
         }}
       >
-        <h1>RAI Assessment</h1>
-        <Box mt={2} />
         <div
           style={{
-            width: '55%',
+            padding: '10em',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          Welcome‌ ‌to‌ ‌the‌ ‌RAIL Certification Beta.‌ ‌This‌ ‌is‌ ‌a‌
-          ‌virtual‌ ‌guide‌ ‌to‌ ‌help‌ ‌those‌ designing,‌ ‌developing,‌ ‌and‌
-          ‌implementing‌ ‌AI‌ ‌systems‌ ‌do‌ ‌so‌ ‌in‌ ‌a‌ ‌responsible‌ ‌way.‌
-          Committed‌ ‌to‌ ‌making‌ ‌responsible‌ ‌AI‌ ‌systems,‌ ‌we’ve‌ ‌done‌
-          ‌the‌ ‌hard‌ ‌work‌ ‌of‌ ‌deciphering‌ the‌ ‌best‌ ‌practices,‌
-          ‌policies,‌ ‌and‌ ‌principles‌ ‌and‌ ‌put‌ ‌them‌ ‌into‌ ‌a‌ ‌simple‌
-          ‌online‌ ‌survey.‌
+          <h1>RAI Assessment</h1>
+          <Box mt={2} />
+          <div
+            style={{
+              width: '55%',
+            }}
+          >
+            Welcome‌ ‌to‌ ‌the‌ ‌RAIL Certification Beta.‌ ‌This‌ ‌is‌ ‌a‌
+            ‌virtual‌ ‌guide‌ ‌to‌ ‌help‌ ‌those‌ designing,‌ ‌developing,‌
+            ‌and‌ ‌implementing‌ ‌AI‌ ‌systems‌ ‌do‌ ‌so‌ ‌in‌ ‌a‌ ‌responsible‌
+            ‌way.‌ Committed‌ ‌to‌ ‌making‌ ‌responsible‌ ‌AI‌ ‌systems,‌
+            ‌we’ve‌ ‌done‌ ‌the‌ ‌hard‌ ‌work‌ ‌of‌ ‌deciphering‌ the‌ ‌best‌
+            ‌practices,‌ ‌policies,‌ ‌and‌ ‌principles‌ ‌and‌ ‌put‌ ‌them‌
+            ‌into‌ ‌a‌ ‌simple‌ ‌online‌ ‌survey.‌
+          </div>
         </div>
       </div>
     </div>
@@ -123,7 +124,6 @@ function HomePage(props) {
   return (
     <div>
       <WelcomeText />
-      <Assessment />
       <Login />
       <UserSubmissions />
       <Box mt={5} />

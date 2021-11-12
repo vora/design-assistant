@@ -58,11 +58,15 @@ class DesignAssistantSurvey extends Component {
       submission_id: this?.props?.location?.state?.submission_id,
       user_id: this?.props?.location?.state?.user_id,
       localResponses: JSON.parse(localStorage.getItem('localResponses')),
+      userQuestionAnswered: false,
+      userAnswer: null,
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleOpenEmptyModal = this.handleOpenEmptyModal.bind(this);
     this.handleCloseEmptyModal = this.handleCloseEmptyModal.bind(this);
+    this.submitUserQuestion = this.submitUserQuestion.bind(this);
+    this.updateUserAnswer = this.updateUserAnswer.bind(this);
   }
 
   // Request questions JSON from backend
@@ -78,7 +82,7 @@ class DesignAssistantSurvey extends Component {
     api.get('metadata').then((res) => {
       this.setState({ metadata: res.data });
     });
-    this.getQuestions();
+    // this.getQuestions();
   }
 
   componentDidUpdate() {
@@ -103,6 +107,17 @@ class DesignAssistantSurvey extends Component {
     localStorage.removeItem('localResponses');
   }
 
+  updateUserAnswer(value) {
+    this.setState({ userAnswer: value });
+  }
+
+  submitUserQuestion() {
+    if (this.state.userAnswer) {
+      this.getQuestions();
+      this.setState({ userQuestionAnswered: true });
+    }
+  }
+
   async getQuestions(submissions) {
     api
       .get('questions', {
@@ -111,6 +126,7 @@ class DesignAssistantSurvey extends Component {
           domains: this.state.domainFilters,
           regions: this.state.regionFilters,
           lifecycles: this.state.lifecycleFilters,
+          userType: this.state.userAnswer
         },
       })
       .then((res) => {
@@ -445,234 +461,299 @@ class DesignAssistantSurvey extends Component {
 
   render() {
     var number = 1;
-    return this.state.model ? (
+    return (this.state.model || !this.state.userQuestionAnswered) ? (
       <div>
-        <div className="dimensionNav">
-          <Accordion>
-            {this.state.dimArray.map((dimension, index) => {
-              return (
-                <Card key={index}>
-                  <Accordion.Toggle as={Card.Header} eventKey={index + 1}>
-                    {dimension}
+        {!this.state.userQuestionAnswered ? (
+          <div style={{ padding: '40px' }}>
+            <p style={{ paddingTop: '20px' }}>
+              Describe the user (person who operates the AI system) and the data
+              subject (person whose data is processed by the system). Example:
+              health care worker (user) operates system that helps diagnose
+              patient (data subject).
+            </p>
+            <fieldset id="userQuestion">
+              <div>
+                <input
+                  type="radio"
+                  value="userNotData"
+                  name="userQuestion"
+                  onChange={(event) => this.updateUserAnswer(event.target.value)}
+                />
+                <label for="userNotData" style={{ paddingLeft: '10px' }}>
+                  User and data subject are two separate individuals (e.g.
+                  diagnostic system operated by health care worker)
+                </label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  value="userIsData"
+                  name="userQuestion"
+                  onChange={(event) => this.updateUserAnswer(event.target.value)}
+                />
+                <label for="userIsData" style={{ paddingLeft: '10px' }}>
+                  User and data subject are the same individual (e.g. interactive
+                  symptom checker operated by patient)
+                </label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  value="noUser"
+                  name="userQuestion"
+                  onChange={(event) => this.updateUserAnswer(event.target.value)}
+                />
+                <label for="noUser" style={{ paddingLeft: '10px' }}>
+                  There is no user (e.g. AI system used to automate some
+                  administrative process){' '}
+                </label>
+              </div>
+            </fieldset>
+            <Button onClick={() => this.submitUserQuestion()} style={{ marginTop: '20px' }}>
+              Start Survey
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <div className="dimensionNav">
+              <Accordion>
+                {this.state.dimArray.map((dimension, index) => {
+                  return (
+                    <Card key={index}>
+                      <Accordion.Toggle as={Card.Header} eventKey={index + 1}>
+                        {dimension}
+                      </Accordion.Toggle>
+                      <Accordion.Collapse eventKey={index + 1}>
+                        <Card.Body>
+                          {this?.state?.json?.pages?.map((page, index) => {
+                            return page.name
+                              .toLowerCase()
+                              .includes(dimension.substring(0, 4).toLowerCase())
+                              ? page.elements.map((question, i) => {
+                                return !question.name.includes('other') &&
+                                  (!question.visibleIf ||
+                                    this.shouldDisplayNav(question)) ? (
+                                  <Button
+                                    style={{ margin: '0.75em' }}
+                                    key={i}
+                                    id={
+                                      this.state.model.data[question.name]
+                                        ? 'answered'
+                                        : 'unanswered'
+                                    }
+                                    onClick={() => this.navPage(index)}
+                                  >
+                                    {question.visibleIf ? '' : number++}
+                                  </Button>
+                                ) : null;
+                              })
+                              : null;
+                          })}
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  );
+                })}
+              </Accordion>
+              <Accordion className="questionFilter">
+                <Card>
+                  <Accordion.Toggle as={Card.Header} eventKey="9">
+                    Filters
                   </Accordion.Toggle>
-                  <Accordion.Collapse eventKey={index + 1}>
-                    <Card.Body>
-                      {this?.state?.json?.pages?.map((page, index) => {
-                        return page.name
-                          .toLowerCase()
-                          .includes(dimension.substring(0, 4).toLowerCase())
-                          ? page.elements.map((question, i) => {
-                            return !question.name.includes('other') &&
-                              (!question.visibleIf ||
-                                this.shouldDisplayNav(question)) ? (
-                              <Button
-                                style={{ margin: '0.75em' }}
-                                key={i}
-                                id={
-                                  this.state.model.data[question.name]
-                                    ? 'answered'
-                                    : 'unanswered'
-                                }
-                                onClick={() => this.navPage(index)}
-                              >
-                                {question.visibleIf ? '' : number++}
-                              </Button>
+                  <Accordion.Collapse eventKey="9">
+                    <Card.Body className="cardBody">
+                      <DropdownButton title="Roles" className="filterDrop">
+                        <Form>
+                          {this.state.metadata.roles.map((role, index) => {
+                            return index + 1 !==
+                              this.state.metadata.roles.length ? (
+                              <Form.Check
+                                type="checkbox"
+                                checked={this.state.roleFilters.includes(
+                                  index + 1
+                                )}
+                                label={role.name}
+                                id={index}
+                                key={index}
+                                value={index + 1}
+                                onChange={(e) => this.addRole(e.target.value)}
+                              />
                             ) : null;
-                          })
-                          : null;
-                      })}
+                          })}
+                        </Form>
+                        <Button
+                          id="clearFilter"
+                          onClick={() => this.clearFilter('roles')}
+                        >
+                          <div>
+                            Reset <i className="fa fa-undo fa-fw"></i>
+                          </div>
+                        </Button>
+                      </DropdownButton>
+                      <DropdownButton title="Industry" className="filterDrop">
+                        <Form>
+                          {this.state.metadata.domain.map((domain, index) => {
+                            return (
+                              <Form.Check
+                                type="checkbox"
+                                checked={this.state.domainFilters.includes(
+                                  index + 1
+                                )}
+                                label={domain.name}
+                                id={index}
+                                key={index}
+                                value={index + 1}
+                                onChange={(e) => this.addDomain(e.target.value)}
+                              />
+                            );
+                          })}
+                        </Form>
+                        <Button
+                          id="clearFilter"
+                          onClick={() => this.clearFilter('domain')}
+                        >
+                          <div>
+                            Reset <i className="fa fa-undo fa-fw"></i>
+                          </div>
+                        </Button>
+                      </DropdownButton>
+                      <DropdownButton title="Regions" className="filterDrop">
+                        <Form>
+                          {this.state.metadata.region.map((region, index) => {
+                            return (
+                              <Form.Check
+                                type="checkbox"
+                                checked={this.state.regionFilters.includes(
+                                  index + 1
+                                )}
+                                label={region.name}
+                                id={index}
+                                key={index}
+                                value={index + 1}
+                                onChange={(e) => this.addRegion(e.target.value)}
+                              />
+                            );
+                          })}
+                        </Form>
+                        <Button
+                          id="clearFilter"
+                          onClick={() => this.clearFilter('region')}
+                        >
+                          <div>
+                            Reset <i className="fa fa-undo fa-fw"></i>
+                          </div>
+                        </Button>
+                      </DropdownButton>
+                      <DropdownButton
+                        title="Life Cycles"
+                        className="filterDrop"
+                      >
+                        <Form>
+                          {this.state.metadata.lifecycle.map(
+                            (lifecycle, index) => {
+                              return index + 1 !==
+                                this.state.metadata.lifecycle.length ? (
+                                <Form.Check
+                                  type="checkbox"
+                                  checked={this.state.lifecycleFilters.includes(
+                                    index + 1
+                                  )}
+                                  label={lifecycle.name}
+                                  id={index}
+                                  key={index}
+                                  value={index + 1}
+                                  onChange={(e) =>
+                                    this.addLifecycle(e.target.value)
+                                  }
+                                />
+                              ) : null;
+                            }
+                          )}
+                        </Form>
+                        <Button
+                          id="clearFilter"
+                          onClick={() => this.clearFilter('lifecycle')}
+                        >
+                          <div>
+                            Reset <i className="fa fa-undo fa-fw"></i>
+                          </div>
+                        </Button>
+                      </DropdownButton>
+                      <Button
+                        id="saveButton"
+                        className="filterApply"
+                        onClick={() => this.applyFilters()}
+                      >
+                        Apply Filters
+                      </Button>
                     </Card.Body>
                   </Accordion.Collapse>
                 </Card>
-              );
-            })}
-          </Accordion>
-          <Accordion className="questionFilter">
-            <Card>
-              <Accordion.Toggle as={Card.Header} eventKey="9">
-                Filters
-              </Accordion.Toggle>
-              <Accordion.Collapse eventKey="9">
-                <Card.Body className="cardBody">
-                  <DropdownButton title="Roles" className="filterDrop">
-                    <Form>
-                      {this.state.metadata.roles.map((role, index) => {
-                        return index + 1 !==
-                          this.state.metadata.roles.length ? (
-                          <Form.Check
-                            type="checkbox"
-                            checked={this.state.roleFilters.includes(index + 1)}
-                            label={role.name}
-                            id={index}
-                            key={index}
-                            value={index + 1}
-                            onChange={(e) => this.addRole(e.target.value)}
-                          />
-                        ) : null;
-                      })}
-                    </Form>
-                    <Button
-                      id="clearFilter"
-                      onClick={() => this.clearFilter('roles')}
-                    >
-                      <div>
-                        Reset <i className="fa fa-undo fa-fw"></i>
-                      </div>
-                    </Button>
-                  </DropdownButton>
-                  <DropdownButton title="Industry" className="filterDrop">
-                    <Form>
-                      {this.state.metadata.domain.map((domain, index) => {
-                        return (
-                          <Form.Check
-                            type="checkbox"
-                            checked={this.state.domainFilters.includes(
-                              index + 1
-                            )}
-                            label={domain.name}
-                            id={index}
-                            key={index}
-                            value={index + 1}
-                            onChange={(e) => this.addDomain(e.target.value)}
-                          />
-                        );
-                      })}
-                    </Form>
-                    <Button
-                      id="clearFilter"
-                      onClick={() => this.clearFilter('domain')}
-                    >
-                      <div>
-                        Reset <i className="fa fa-undo fa-fw"></i>
-                      </div>
-                    </Button>
-                  </DropdownButton>
-                  <DropdownButton title="Regions" className="filterDrop">
-                    <Form>
-                      {this.state.metadata.region.map((region, index) => {
-                        return (
-                          <Form.Check
-                            type="checkbox"
-                            checked={this.state.regionFilters.includes(
-                              index + 1
-                            )}
-                            label={region.name}
-                            id={index}
-                            key={index}
-                            value={index + 1}
-                            onChange={(e) => this.addRegion(e.target.value)}
-                          />
-                        );
-                      })}
-                    </Form>
-                    <Button
-                      id="clearFilter"
-                      onClick={() => this.clearFilter('region')}
-                    >
-                      <div>
-                        Reset <i className="fa fa-undo fa-fw"></i>
-                      </div>
-                    </Button>
-                  </DropdownButton>
-                  <DropdownButton title="Life Cycles" className="filterDrop">
-                    <Form>
-                      {this.state.metadata.lifecycle.map((lifecycle, index) => {
-                        return index + 1 !==
-                          this.state.metadata.lifecycle.length ? (
-                          <Form.Check
-                            type="checkbox"
-                            checked={this.state.lifecycleFilters.includes(
-                              index + 1
-                            )}
-                            label={lifecycle.name}
-                            id={index}
-                            key={index}
-                            value={index + 1}
-                            onChange={(e) => this.addLifecycle(e.target.value)}
-                          />
-                        ) : null;
-                      })}
-                    </Form>
-                    <Button
-                      id="clearFilter"
-                      onClick={() => this.clearFilter('lifecycle')}
-                    >
-                      <div>
-                        Reset <i className="fa fa-undo fa-fw"></i>
-                      </div>
-                    </Button>
-                  </DropdownButton>
-                  <Button
-                    id="saveButton"
-                    className="filterApply"
-                    onClick={() => this.applyFilters()}
-                  >
-                    Apply Filters
-                  </Button>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          </Accordion>
-        </div>
-        <div className="container" style={{ paddingTop: '2em' }}>
-          <div className="d-flex justify-content-center col">
-            {this.percent()}%
-          </div>
-        </div>
-        {this.state.mount ? (
-          <Survey.Survey
-            model={this.state.model}
-            onComplete={this.onComplete}
-          />
-        ) : null}
-        <div id="navCon" className="container">
-          <div id="navCard" className="card">
-            <div className="row no-gutters">
-              <div className="d-flex justify-content-start col">
-                <Button
-                  id="resetButton"
-                  className="btn btn-primary mr-2"
-                  onClick={this.handleOpenModal}
-                >
-                  Reset
-                </Button>
-              </div>
+              </Accordion>
+            </div>
+            <div className="container" style={{ paddingTop: '2em' }}>
               <div className="d-flex justify-content-center col">
-                <Button
-                  id="surveyNav"
-                  className="btn btn-primary mr-2"
-                  onClick={() => this.prevPage()}
-                  disabled={this.state.model.isFirstPage}
-                >
-                  Prev
-                </Button>
-                <Button
-                  id="surveyNav"
-                  className="btn btn-primary mr-2"
-                  onClick={() => this.nextPage()}
-                  disabled={this.state.model.isLastPage}
-                >
-                  Next
-                </Button>
+                {this.percent()}%
               </div>
-              <div className="d-flex justify-content-end col">
-                <Button
-                  className="btn btn-save mr-2"
-                  id="saveButton"
-                  onClick={() => this.save()}
-                >
-                  Save
-                </Button>
-                <Button
-                  className="bt btn-primary"
-                  onClick={() => this.finish()}
-                >
-                  Finish
-                </Button>
+            </div>
+            {this.state.mount ? (
+              <Survey.Survey
+                model={this.state.model}
+                onComplete={this.onComplete}
+              />
+            ) : null}
+          </div>
+        )}
+        {this.state.userQuestionAnswered && this.state.model && (
+          <div id="navCon" className="container">
+            <div id="navCard" className="card">
+              <div className="row no-gutters">
+                <div className="d-flex justify-content-start col">
+                  <Button
+                    id="resetButton"
+                    className="btn btn-primary mr-2"
+                    onClick={this.handleOpenModal}
+                  >
+                    Reset
+                  </Button>
+                </div>
+                <div className="d-flex justify-content-center col">
+                  <Button
+                    id="surveyNav"
+                    className="btn btn-primary mr-2"
+                    onClick={() => this.prevPage()}
+                    disabled={this.state.model.isFirstPage}
+                  >
+                    Prev
+                  </Button>
+                  <Button
+                    id="surveyNav"
+                    className="btn btn-primary mr-2"
+                    onClick={() => this.nextPage()}
+                    disabled={this.state.model.isLastPage}
+                  >
+                    Next
+                  </Button>
+                </div>
+                <div className="d-flex justify-content-end col">
+                  <Button
+                    className="btn btn-save mr-2"
+                    id="saveButton"
+                    onClick={() => this.save()}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    className="bt btn-primary"
+                    onClick={() => this.finish()}
+                  >
+                    Finish
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <Modal
           size="md"
           aria-labelledby="contained-modal-title-vcenter"
