@@ -219,6 +219,10 @@ form .btn:not(.btn-call-to-action) {
   text-decoration: none;
 }
 
+.anthem-blue {
+  color: #386eda;
+}
+
 .anthem-footer-theme {
   background-color: #386eda;
   width: 100%;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { getLoggedInUser } from '../helper/AuthHelper';
-import { Button, Box } from '@material-ui/core';
+import { Button, Box, CircularProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AssessmentGrid from '../Components/AssessmentGrid';
+import Assessment from '../Components/Assessment';
+import Signup from './../views/Signup';
 
 import api from '../api';
 import ReactGa from 'react-ga';
@@ -30,11 +32,8 @@ const StartSurveyHandler = () => {
   });
 };
 
-const faqPath =
-  '/https://ai-global.org/2020/04/28/creating-a-responsible-ai-trust-index-a-unified-assessment-to-assure-the-responsible-design-development-and-deployment-of-ai/';
-
 const guidancePath =
-  '/https://docs.google.com/presentation/d/1EDPhyRhIsiOrujLcHQv_fezXfgOz4Rl7a8lyOM_guoA/edit#slide=id.p1';
+  'https://docs.google.com/presentation/d/1EDPhyRhIsiOrujLcHQv_fezXfgOz4Rl7a8lyOM_guoA/edit#slide=id.p1';
 class UserSubmissions extends Component {
   constructor(props) {
     super(props);
@@ -43,18 +42,25 @@ class UserSubmissions extends Component {
       authToken: localStorage.getItem('authToken'),
       submissions: [],
       showDeleteWarning: false,
+      isLoggedIn: false,
+      showSignupModal: false,
     };
   }
 
   componentDidMount() {
+    this.state.isLoggedIn = true;
     // get the logged in user and their submissions from backend
     getLoggedInUser().then((user) => {
       if (user) {
         this.setState({ user: user });
-        api.get('submissions/user/' + user._id).then((res) => {
-          var submissions = res.data;
-          this.setState(submissions);
-        });
+        this.setState({ collabRole: user.collabRole });
+        api
+          .get('submissions/' + this.state.collabRole)
+
+          .then((res) => {
+            var submissions = res.data;
+            this.setState(submissions);
+          });
       }
     });
   }
@@ -115,6 +121,8 @@ class UserSubmissions extends Component {
     this.setState({ showDeleteWarning: true });
   }
 
+  handleSignupShow = () => this.setState({ showSignupModal: true });
+
   deleteSurvey() {
     let currentSubmissionIdx = this.state.currentSubmissionIdx;
     let submissions = this.state.submissions;
@@ -170,59 +178,145 @@ class UserSubmissions extends Component {
 
   render() {
     const handleClose = () => this.setState({ showDeleteWarning: false });
-    return (
-      <div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            position: 'relative',
-            bottom: '100px',
-          }}
-        >
+
+    if (!this.state.isLoggedIn) {
+      return (
+        <div>
           <div
             style={{
               display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              width: '50%',
+              justifyContent: 'center',
+              width: '100%',
             }}
           >
-            <LandingButton
-              variant="outlined"
-              type="button"
-              onClick={() => this.startSurvey()}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width: '50%',
+              }}
             >
-              Start New Survey
-            </LandingButton>
-            <LandingButton variant="outlined" type="button" href={faqPath}>
-              FREQUENTLY ASKED QUESTIONS
-            </LandingButton>
-            <LandingButton variant="outlined" type="button" href={guidancePath}>
-              GUIDE LINK
-            </LandingButton>
+              <Signup signedOut={true} admin={true} />
+              <LandingButton
+                variant="outlined"
+                type="button"
+                href={guidancePath}
+              >
+                GUIDE LINK
+              </LandingButton>
+            </div>
+            <Box mt={1} />
           </div>
-        </div>
-        <Box mb={5} />
-        <Box mt={10} />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+          <Box mt={10} />
           <div
             style={{
-              width: '90%',
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              height: '400px',
             }}
           >
-            <AssessmentGrid></AssessmentGrid>
-            <Box mt={4} />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '50%',
+              }}
+            >
+              With‌ ‌our‌ ‌esteemed‌ ‌community‌ ‌of‌ ‌subject‌ ‌matter‌
+              ‌experts‌ ‌ranging‌ ‌from‌ ‌engineers,‌ ‌to‌ ethicists,‌ ‌to‌
+              ‌policy‌ ‌makers,‌ ‌we‌ ‌have‌ ‌taken‌ ‌the‌ ‌most‌ ‌cited‌
+              ‌principles,‌ ‌whitepapers,‌ ‌and‌ policy‌ ‌documents‌ ‌published‌
+              ‌by‌ ‌academics,‌ ‌standards‌ ‌organizations,‌ ‌and‌ ‌companies‌
+              and‌ ‌translated‌ ‌them‌ ‌into‌ ‌comprehensive‌ ‌questions.‌
+              <Box mt={5} />
+              <div>
+                Our‌ ‌hope‌ ‌is‌ ‌that‌ ‌you‌ ‌will‌ ‌work‌ ‌with‌ ‌your‌
+                ‌colleagues‌ ‌who‌ ‌are‌ ‌responsible‌ ‌for‌ ‌different‌
+                aspects‌ ‌of‌ ‌your‌ ‌business‌ ‌to‌ ‌fill‌ ‌out‌ ‌the‌ ‌Design‌
+                ‌Assistant.‌ ‌Whether‌ ‌you‌ ‌are‌ ‌just‌ ‌thinking‌ about‌
+                ‌how‌ ‌to‌ ‌integrate‌ ‌AI‌ ‌tools‌ ‌into‌ ‌your‌ ‌business,‌
+                ‌or‌ ‌you‌ ‌have‌ ‌already‌ ‌deployed‌ several‌ ‌models,‌ ‌this‌
+                ‌tool‌ ‌is‌ ‌for‌ ‌you.‌ ‌We‌ ‌do‌ ‌think‌ ‌that‌ ‌these‌
+                ‌questions‌ ‌are‌ ‌best‌ ‌to‌ ‌think‌ about‌ ‌at‌ ‌the‌ ‌start‌
+                ‌of‌ ‌your‌ ‌project,‌ ‌however,‌ ‌we‌ ‌do‌ ‌think‌ ‌that‌ ‌the‌
+                ‌Design‌ ‌Assistant‌ ‌can‌ ‌be‌ used‌ ‌throughout‌ ‌the‌
+                ‌lifecycle‌ ‌of‌ ‌your‌ ‌project!‌
+              </div>
+            </div>
           </div>
         </div>
-        <Box mt={4} />
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <div>
+            <Box mt={10} />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                position: 'relative',
+                bottom: '100px',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width: '50%',
+                }}
+              >
+                {this.state?.user?.collabRole !== 'legalCompliance' && (
+                  <LandingButton
+                    variant="outlined"
+                    type="button"
+                    onClick={() => this.startSurvey()}
+                  >
+                    Start Assessment
+                  </LandingButton>
+                )}
+                <LandingButton
+                  variant="outlined"
+                  type="button"
+                  href={guidancePath}
+                >
+                  GUIDE LINK
+                </LandingButton>
+              </div>
+            </div>
+            <Assessment></Assessment>
+            <Box mb={5} />
+            <Box mt={10} />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <div
+                style={{
+                  width: '90%',
+                }}
+              >
+                <AssessmentGrid
+                  submissions={this.state.submissions}
+                  userName={this.state?.user?.username}
+                  collabRole={this.state?.user?.collabRole}
+                  handleDelete={() => this.deleteSurvey()}
+                  handleResume={(index) => this.resumeSurvey(index)}
+                ></AssessmentGrid>
+                <Box mt={4} />
+              </div>
+            </div>
+            <Box mt={4} />
+          </div>
+          )}
+        </div>
+      );
+    }
   }
 }
 
