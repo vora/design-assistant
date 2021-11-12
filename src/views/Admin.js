@@ -621,7 +621,7 @@ export default class AdminPanel extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell>
-                        <Signup onLanding={false} />
+                        <Signup admin={false} />
                       </TableCell>
                       <TableCell
                         className="score-card-headers"

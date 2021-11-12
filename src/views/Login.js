@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
+import { Button } from '@material-ui/core';
+
 import '../css/login.css';
 import Signup from './Signup';
 import api from '../api';
@@ -90,20 +92,21 @@ export default class Login extends Component {
     if (user) {
       return (
         <div className="user-status">
-          <p className="msg">
-            Logged in as: <strong>{user.username}</strong> &nbsp;
-          </p>
           <UserSettings />
+          <p className="msg ">
+            Logged in as:{' '}
+            <strong className="anthem-blue">{user.username}</strong> &nbsp;
+          </p>
         </div>
       );
     } else {
       return (
         <Button
+          className="login"
           onClick={() => {
             handleShow();
             LoginHandler();
           }}
-          className="user-status"
         >
           Log in
         </Button>
@@ -168,10 +171,9 @@ export default class Login extends Component {
                 value="Login"
               />
             </Form>
-            {/* TODO: remove this once ready for more users */}
             <div className="create-account">
               <p className="disabled">Not a member yet?&nbsp;</p>
-              <Signup onLanding={true} />
+              <Signup onLanding={true} signedOut={false} admin={true} />
             </div>
           </Modal.Body>
           <Modal.Footer>
