@@ -353,7 +353,11 @@ class DesignAssistantSurvey extends Component {
   finish() {
     this.save(true);
     this.state.model.doComplete();
-    this.nextPath('/Results/');
+    let path = '/Results/';
+    if (this.state.submission_id) {
+      path += this.state.submission_id
+    }
+    this.nextPath(path);
     /**
      * TODO: handle finding if user picked specific lifecycle method(s) 
      * that should redirect to pilot report pdf instead of results

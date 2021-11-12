@@ -44,6 +44,9 @@ const SubmissionSchema = mongoose.Schema({
     required: true,
   },
 
+  riskLevel: {
+    type: String,
+  }
   // TODO: Add test of schema to model
 });
 

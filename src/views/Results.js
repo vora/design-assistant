@@ -50,7 +50,9 @@ export default class Results extends Component {
     this.state = {
       Dimensions: [],
     };
+    this.addRiskToSubmission = this.addRiskToSubmission.bind(this)
   }
+
 
   componentDidMount() {
     ReactGa.pageview(window.location.pathname + window.location.search);
@@ -80,7 +82,19 @@ export default class Results extends Component {
       riskWeight = 2;
     }
 
+
     return riskWeight;
+  }
+
+  addRiskToSubmission(submission, riskWeight) {
+    const submissionRiskLevel = riskLevel[riskWeight];
+
+    console.log('submission', submission)
+    if (submission) {
+      api.post('/submission/update' + submission._id, {
+        riskLevel: submissionRiskLevel
+      });
+    }
   }
 
   downloadCSV(results, questionsObj) {
@@ -186,6 +200,8 @@ export default class Results extends Component {
       surveyResults
     );
 
+    this.addRiskToSubmission(submission, riskWeight);
+
     var titleQuestion = allQuestions.find(
       (question) => question.title.default === 'Title of project'
     );
@@ -215,6 +231,7 @@ export default class Results extends Component {
     );
 
     var radarChartData = [];
+
     if (this.state.Dimensions.length === 0) {
       return null;
     } else
