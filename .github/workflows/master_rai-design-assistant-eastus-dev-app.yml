@@ -30,10 +30,10 @@ jobs:
       - name: Copy Directory
         # You may pin to the exact commit or the version.
         # uses: MadaraUchiha/copy-action@7ddff6fc153a2ea2cd0fb88ed9750544c051e399
-        uses: MadaraUchiha/copy-action@0.0.1
+        uses: canastro/copy-file-action@master
         with:
           # Source file
-          source: api/**
+          source: api/**/*
           # Target file
           target: build
 
