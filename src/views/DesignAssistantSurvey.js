@@ -758,8 +758,19 @@ class DesignAssistantSurvey extends Component {
             </p>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={this.handleCloseModal}>No</Button>
-            <Button id="resetButton" onClick={() => this.resetSurvey()}>
+            <Button
+              variant="outlined"
+              color="primary"
+              className="mr-2"
+              onClick={this.handleCloseModal}
+            >
+              No
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => this.resetSurvey()}
+            >
               Yes
             </Button>
           </ModalFooter>
