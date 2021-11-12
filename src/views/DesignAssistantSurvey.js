@@ -277,7 +277,11 @@ class DesignAssistantSurvey extends Component {
   nextPath(path) {
     this.props.history.push({
       pathname: path,
-      state: { questions: this.state.json, responses: this.state.model.data },
+      state: {
+        questions: this.state.json,
+        responses: this.state.model.data,
+        submissionId: this.state.submission_id,
+      },
     });
   }
 
@@ -361,11 +365,11 @@ class DesignAssistantSurvey extends Component {
     this.state.model.doComplete();
     let path = '/Results/';
     if (this.state.submission_id) {
-      path += this.state.submission_id
+      path += this.state.submission_id;
     }
     this.nextPath(path);
     /**
-     * TODO: handle finding if user picked specific lifecycle method(s) 
+     * TODO: handle finding if user picked specific lifecycle method(s)
      * that should redirect to pilot report pdf instead of results
      */
   }

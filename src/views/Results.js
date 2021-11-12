@@ -49,16 +49,17 @@ export default class Results extends Component {
     super(props);
     this.state = {
       Dimensions: [],
+      submissionId: null,
     };
-    this.addRiskToSubmission = this.addRiskToSubmission.bind(this)
+    this.addRiskToSubmission = this.addRiskToSubmission.bind(this);
   }
-
 
   componentDidMount() {
     ReactGa.pageview(window.location.pathname + window.location.search);
     api.get('dimensions').then((res) => {
       this.setState({ Dimensions: res.data });
     });
+    this.setState({ submissionId: this?.props?.location?.state?.submissionId });
   }
 
   calculateRiskWeight(riskQuestions, results) {
@@ -82,17 +83,20 @@ export default class Results extends Component {
       riskWeight = 2;
     }
 
-
     return riskWeight;
   }
 
-  addRiskToSubmission(submission, riskWeight) {
+  addRiskToSubmission(riskWeight) {
     const submissionRiskLevel = riskLevel[riskWeight];
-
-    console.log('submission', submission)
-    if (submission) {
-      api.post('/submission/update' + submission._id, {
-        riskLevel: submissionRiskLevel
+    console.log('riskWeight', riskWeight);
+    console.log(this.state.submissionId);
+    if (this.state.submissionId) {
+      const submission = api.get(
+        `submissions/submission/${this.state?.submissionId}`
+      );
+      api.post('submissions/update/' + this.state?.submissionId, {
+        ...submission,
+        riskLevel: submissionRiskLevel,
       });
     }
   }
@@ -169,7 +173,6 @@ export default class Results extends Component {
   render() {
     var json = this?.props?.location?.state?.questions;
     var surveyResults = this?.props?.location?.state?.responses;
-    var submission = this?.props?.location?.state?.submission;
     if (json === undefined || surveyResults === undefined) {
       this.props.history.push({
         pathname: '/',
@@ -199,8 +202,7 @@ export default class Results extends Component {
       allQuestions.filter((x) => x.score?.dimension === 'RK'),
       surveyResults
     );
-
-    this.addRiskToSubmission(submission, riskWeight);
+    this.addRiskToSubmission(riskWeight);
 
     var titleQuestion = allQuestions.find(
       (question) => question.title.default === 'Title of project'
@@ -371,7 +373,10 @@ export default class Results extends Component {
               </Tab.Container>
             </Tab>
           </Tabs>
-          <div className="dimension-chart" style={{ marginBottom: '80px', marginTop: '40px' }}>
+          <div
+            className="dimension-chart"
+            style={{ marginBottom: '80px', marginTop: '40px' }}
+          >
             <h4>Risk Level: {riskLevel[riskWeight ?? 1]}</h4>
             <ResponsiveRadar
               data={radarChartData}
@@ -421,7 +426,11 @@ export default class Results extends Component {
             ‌to‌ ‌start‌ ‌over‌ ‌again!‌
           </p>
           <Link to="/">
-            <Button id="restartButton" onClick={StartAgainHandler} style={{ marginTop: '10px' }}>
+            <Button
+              id="restartButton"
+              onClick={StartAgainHandler}
+              style={{ marginTop: '10px' }}
+            >
               Start Again
             </Button>
           </Link>

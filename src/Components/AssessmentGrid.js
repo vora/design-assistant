@@ -78,7 +78,9 @@ export default function AssessmentGrid(props) {
               .map((submission, i) => (
                 <StyledTableRow stripedRows key={i}>
                   <StyledTableCell className={classes.anthemBlue}>
-                    {submission.projectName}
+                    {submission.projectName === ''
+                      ? submission._id
+                      : submission.projectName}
                   </StyledTableCell>
                   <StyledTableCell>{submission.users.username}</StyledTableCell>
 
