@@ -99,12 +99,6 @@ export default class Signup extends Component {
     let collabRoles = form.signupCollabRoles.value;
 
     let result = owasp.test(password);
-    if (!result.strong) {
-      this.setState({
-        password: { isInvalid: true, message: result.errors.join('\n') },
-      });
-    }
-
     if (password !== passwordConfirmation) {
       this.setState({
         passwordConfirmation: {
@@ -112,7 +106,13 @@ export default class Signup extends Component {
           message: "Those passwords didn't match. Please try again.",
         },
       });
-    } else {
+    }
+    else if (!result.strong) {
+      this.setState({
+        password: { isInvalid: true, message: result.errors.join('\n') },
+      });
+    }
+    else {
       api
         .post('users/create', {
           email: email,
