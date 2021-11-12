@@ -382,7 +382,7 @@ async function createPages(q, filters) {
   var page = {};
   page.pages = [];
   page.showQuestionNumbers = 'on';
-  page.showProgressBar = 'top';
+  page.showProgressBar = 'false';
   page.firstPageIsStarted = 'false';
   page.showNavigationButtons = 'false';
   page.clearInvisibleValues = 'onHidden';
