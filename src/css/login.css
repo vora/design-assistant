@@ -86,12 +86,6 @@
   margin: 10px 0 15px 0 !important;
 }
 
-.login {
-  position: absolute;
-  bottom: 530px;
-  left: 2100px;
-}
-
 @media screen and (max-width: 1570px) {
   .user-status .msg {
     display: none;

@@ -7,13 +7,12 @@ export const useStyles = makeStyles({
     height: '210px',
     borderRadius: '10px',
   },
-  outterContainer: {
+  outerContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '90%',
-    position: 'relative',
     bottom: '100px',
   },
   expandButtonEnd: {

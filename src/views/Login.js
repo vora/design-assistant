@@ -102,7 +102,6 @@ export default class Login extends Component {
     } else {
       return (
         <Button
-          className="login"
           onClick={() => {
             handleShow();
             LoginHandler();
