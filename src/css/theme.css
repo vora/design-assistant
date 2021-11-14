@@ -20,6 +20,8 @@ html {
 }
 .banner {
   padding-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .banner .logo {
@@ -425,4 +427,8 @@ input[type='number'] {
   width: 100%;
   background-color: #ffffff;
   flex-grow: 2;
+}
+
+#root {
+  min-height: 85vh;
 }

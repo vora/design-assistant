@@ -243,7 +243,7 @@ export default class Results extends Component {
           role="main"
           property="mainContentOfPage"
           className="container"
-          style={{ paddingBottom: '1rem' }}
+          style={{ paddingBottom: '1rem', paddingTop: '5rem' }}
         >
           <h1 className="section-header">Results</h1>
           <button
