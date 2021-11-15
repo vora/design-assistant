@@ -18,7 +18,7 @@ export default function Assessment(props) {
 
   return (
     <div>
-      <div className={classes.outterContainer}>
+      <div className={classes.outerContainer}>
         <Box mt={20} />
         <div className={classes.assessmentTitle}>
           {expandButton ? <div></div> : <div>What do Assessments Cover?</div>}

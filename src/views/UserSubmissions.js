@@ -187,6 +187,7 @@ class UserSubmissions extends Component {
               display: 'flex',
               justifyContent: 'center',
               width: '100%',
+              marginTop: '2rem',
             }}
           >
             <div
@@ -257,8 +258,6 @@ class UserSubmissions extends Component {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                position: 'relative',
-                bottom: '100px',
               }}
             >
               <div
@@ -313,7 +312,6 @@ class UserSubmissions extends Component {
             </div>
             <Box mt={4} />
           </div>
-          )}
         </div>
       );
     }
