@@ -120,7 +120,29 @@ class DesignAssistantSurvey extends Component {
   submitUserQuestion() {
     if (this.state.userAnswer) {
       this.getQuestions();
+      this.createSubmission();
       this.setState({ userQuestionAnswered: true });
+    }
+  }
+
+  async createSubmission() {
+    if (!this.state.submission_id) {
+      api
+        .post('submissions', {
+          userId: this.state?.user_id,
+          submission: {},
+          date: new Date(),
+          projectName: '',
+          completed: false,
+          domain: this.state.domainFilters,
+          region: this.state.regionFilters,
+          roles: this.state.roleFilters,
+          lifecycle: this.state.lifecycleFilters,
+        })
+        .then((res) => {
+          const { _id } = res.data;
+          this.setState({ submission_id: _id });
+        });
     }
   }
 
@@ -356,18 +378,16 @@ class DesignAssistantSurvey extends Component {
           toastId: 'saving',
         });
         let submission = res.data;
-        this.setState({ submission_id: submission._id });
+        if (!this.state.submission_id) {
+          this.setState({ submission_id: submission._id });
+        }
       });
   }
 
   finish() {
     this.save(true);
     this.state.model.doComplete();
-    let path = '/Results/';
-    if (this.state.submission_id) {
-      path += this.state.submission_id;
-    }
-    this.nextPath(path);
+    this.nextPath('/Results/');
     /**
      * TODO: handle finding if user picked specific lifecycle method(s)
      * that should redirect to pilot report pdf instead of results

@@ -45,11 +45,11 @@ export default function AssessmentGrid(props) {
 
   const handleChipColor = (riskLevel) => {
     switch (riskLevel) {
-      case 'Low Risk':
+      case 'Low':
         return classes.lowRisk;
-      case 'Medium Risk':
+      case 'Medium':
         return classes.mediumRisk;
-      case 'High Risk':
+      case 'High':
         return classes.highRisk;
       default:
     }
@@ -85,10 +85,12 @@ export default function AssessmentGrid(props) {
                   <StyledTableCell>{submission.users.username}</StyledTableCell>
 
                   <StyledTableCell>
-                    <Chip
-                      label="Low Risk"
-                      className={handleChipColor('Low Risk')}
-                    ></Chip>
+                    {submission.riskLevel && (
+                      <Chip
+                        label={submission.riskLevel}
+                        className={handleChipColor(submission.riskLevel)}
+                      ></Chip>
+                    )}
                   </StyledTableCell>
                   <StyledTableCell>
                     {submission.completed ? 'Completed' : 'In Progress'}

@@ -118,7 +118,7 @@ router.post('/', async (req, res) => {
     const savedSubmission = await submission.save();
     res.json(savedSubmission);
   } catch (err) {
-    res.json({ message: err });
+    res.status(400).json({ message: err });
   }
 });
 
