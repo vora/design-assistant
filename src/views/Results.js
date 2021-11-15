@@ -49,7 +49,9 @@ export default class Results extends Component {
     super(props);
     this.state = {
       Dimensions: [],
+      submissionId: null,
     };
+    this.addRiskToSubmission = this.addRiskToSubmission.bind(this);
   }
 
   componentDidMount() {
@@ -57,6 +59,7 @@ export default class Results extends Component {
     api.get('dimensions').then((res) => {
       this.setState({ Dimensions: res.data });
     });
+    this.setState({ submissionId: this?.props?.location?.state?.submissionId });
   }
 
   calculateRiskWeight(riskQuestions, results) {
@@ -81,6 +84,22 @@ export default class Results extends Component {
     }
 
     return riskWeight;
+  }
+
+  addRiskToSubmission(riskWeight) {
+    const submissionRiskLevel = riskLevel[riskWeight];
+    if (this.state.submissionId) {
+      api
+        .get(`submissions/submission/${this.state?.submissionId}`)
+        .then((res) => {
+          const submission = res.data.submission;
+          console.log(submission);
+          api.post('submissions/update/' + this.state?.submissionId, {
+            ...submission,
+            riskLevel: submissionRiskLevel,
+          });
+        });
+    }
   }
 
   downloadCSV(results, questionsObj) {
@@ -155,7 +174,6 @@ export default class Results extends Component {
   render() {
     var json = this?.props?.location?.state?.questions;
     var surveyResults = this?.props?.location?.state?.responses;
-    var submission = this?.props?.location?.state?.submission;
     if (json === undefined || surveyResults === undefined) {
       this.props.history.push({
         pathname: '/',
@@ -185,9 +203,10 @@ export default class Results extends Component {
       allQuestions.filter((x) => x.score?.dimension === 'RK'),
       surveyResults
     );
+    this.addRiskToSubmission(riskWeight);
 
     var titleQuestion = allQuestions.find(
-      (question) => question.title.default === 'Title of project'
+      (question) => question.title.default === 'Project Name'
     );
     var descriptionQuestion = allQuestions.find(
       (question) => question.title.default === 'Project Description'
@@ -215,6 +234,7 @@ export default class Results extends Component {
     );
 
     var radarChartData = [];
+
     if (this.state.Dimensions.length === 0) {
       return null;
     } else

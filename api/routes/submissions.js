@@ -3,6 +3,17 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Submission = require('../models/submission.model');
 
+//get single submission
+router.get('/submission/:submissionId', async (req, res) => {
+  try {
+    await Submission.findById(req.params.submissionId).then((submission) => {
+      res.json({ submission: submission });
+    });
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 // Get all submissions
 // TASK-TODO: Secure endpoint.
 router.get('/', async (req, res) => {
@@ -71,6 +82,7 @@ router.post('/update/:submissionId', async (req, res) => {
         domain: req.body.domain,
         region: req.body.region,
         roles: req.body.roles,
+        riskLevel: req.body.riskLevel,
       },
       { upsert: true, runValidators: true }
     );
@@ -108,7 +120,7 @@ router.post('/', async (req, res) => {
     const savedSubmission = await submission.save();
     res.json(savedSubmission);
   } catch (err) {
-    res.json({ message: err });
+    res.status(400).json({ message: err });
   }
 });
 
