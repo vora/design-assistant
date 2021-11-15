@@ -104,31 +104,29 @@ export default function AssessmentGrid(props) {
                     </CaptionTypography>
                   </StyledTableCell>
                   <StyledTableCell>
-                    {!submission.completed && (
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          width: '50%',
-                        }}
-                      >
-                        {collabRole !== 'legalCompliance' && (
-                          <DeleteRounded
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              handleDelete();
-                            }}
-                          />
-                        )}
-                        <AccountBox
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        width: '50%',
+                      }}
+                    >
+                      {collabRole !== 'legalCompliance' && (
+                        <DeleteRounded
                           style={{ cursor: 'pointer' }}
                           onClick={() => {
-                            handleResume(i);
+                            handleDelete();
                           }}
                         />
-                      </div>
-                    )}
+                      )}
+                      <AccountBox
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          handleResume(i);
+                        }}
+                      />
+                    </div>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
