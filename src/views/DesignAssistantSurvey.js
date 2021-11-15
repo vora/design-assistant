@@ -464,7 +464,7 @@ class DesignAssistantSurvey extends Component {
   render() {
     var number = 1;
     return this.state.model || !this.state.userQuestionAnswered ? (
-      <div>
+      <div className="surveyContainer">
         {!this.state.userQuestionAnswered ? (
           <div style={{ padding: '40px' }}>
             <p style={{ paddingTop: '20px' }}>
