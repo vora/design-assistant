@@ -73,6 +73,7 @@ class DesignAssistantSurvey extends Component {
     this.handleCloseEmptyModal = this.handleCloseEmptyModal.bind(this);
     this.submitUserQuestion = this.submitUserQuestion.bind(this);
     this.updateUserAnswer = this.updateUserAnswer.bind(this);
+    this.getResultsPath = this.getResultsPath.bind(this);
   }
 
   // Request questions JSON from backend
@@ -382,16 +383,38 @@ class DesignAssistantSurvey extends Component {
           this.setState({ submission_id: submission._id });
         }
       });
+    this.getResultsPath();
+  }
+
+  // determine if user should go to results page on finish or
+  // be redirected to pilot report PDF
+  getResultsPath() {
+    let path = '/Results';
+    const question = this.state.json?.pages[0]?.elements?.find(
+      (q) => q?.title?.default === 'Life Cycle Phase'
+    );
+    const answer = this.state.model.data[question?.name] ?? '';
+    const lifeCycle = question?.choices.find(
+      (choice) => choice.value === answer
+    )?.text?.default;
+
+    if (['Develop and Deploy', 'Operate', 'Decommission'].includes(lifeCycle)) {
+      path =
+        'https://ascendumus-my.sharepoint.com/personal/bhawana_yadav_ascendum_com/Documents/Attachments/Pilot%20Report.pdf';
+    }
+    return path;
   }
 
   finish() {
     this.save(true);
     this.state.model.doComplete();
-    this.nextPath('/Results/');
-    /**
-     * TODO: handle finding if user picked specific lifecycle method(s)
-     * that should redirect to pilot report pdf instead of results
-     */
+
+    let path = this.getResultsPath();
+    if (path === '/Results') {
+      this.nextPath(path);
+    } else {
+      window.location.href = path;
+    }
   }
 
   onComplete(survey, options) {
