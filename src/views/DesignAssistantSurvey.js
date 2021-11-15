@@ -709,7 +709,7 @@ class DesignAssistantSurvey extends Component {
             </div>
             <div className="container" style={{ paddingTop: '2em' }}></div>
             {this.state.mount ? (
-              <div className="container">
+              <div className="surveyQuestionContainer">
                 <Survey.Survey
                   model={this.state.model}
                   onComplete={this.onComplete}

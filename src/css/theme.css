@@ -20,8 +20,6 @@ html {
 }
 .banner {
   padding-top: 0.5rem;
-  display: flex;
-  justify-content: space-between;
 }
 
 .banner .logo {
@@ -266,11 +264,11 @@ form .btn:not(.btn-call-to-action) {
   border-top: 1px solid #ddd;
 }
 
-@media screen and (min-width: 1775px) {
+@media screen and (min-width: 1200px) {
   .dimensionNav {
     position: absolute;
-    left: 3em;
-    top: 11em;
+    left: 1em;
+    top: 8em;
     z-index: 5;
     max-width: 20em;
     min-width: 19em;
@@ -429,6 +427,7 @@ input[type='number'] {
   flex-grow: 2;
 }
 
-#root {
-  min-height: 85vh;
+.surveyQuestionContainer {
+  margin-left: 22em;
+  margin-right: 10em;
 }
