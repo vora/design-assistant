@@ -4,6 +4,10 @@
 * Autoprefixer: v9.7.6
 * Browsers: last 4 version
 */
+html,
+body {
+  height: 100%;
+}
 
 html {
   background-color: #262626;
@@ -76,10 +80,7 @@ html {
 }
 
 .copyright-footer {
-  position: relative;
-  bottom: 0px;
   width: 100%;
-  background-color: #262626;
 }
 
 .copyright {
@@ -265,11 +266,11 @@ form .btn:not(.btn-call-to-action) {
   border-top: 1px solid #ddd;
 }
 
-@media screen and (min-width: 1775px) {
+@media screen and (min-width: 1200px) {
   .dimensionNav {
     position: absolute;
-    left: 3em;
-    top: 11em;
+    left: 1em;
+    top: 8em;
     z-index: 5;
     max-width: 20em;
     min-width: 19em;
@@ -424,8 +425,12 @@ input[type='number'] {
 }
 .mainContainer {
   width: 100%;
+  background-color: #ffffff;
+  flex-grow: 2;
 }
 
-#root {
-  min-height: 85vh;
+.surveyQuestionContainer {
+  margin-left: 22em;
+  margin-right: 10em;
+  padding-top: 2em;
 }
