@@ -113,6 +113,7 @@ router.post('/', async (req, res) => {
     roles: req.body.roles,
     submission: req.body.submission,
     completed: req.body.completed ? req.body.completed : false,
+    userType: req.body.userType,
   });
 
   try {
