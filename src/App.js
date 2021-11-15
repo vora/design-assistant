@@ -11,6 +11,7 @@ import { expireAuthToken } from './helper/AuthHelper';
 import api from './api';
 
 import 'nouislider/distribute/nouislider.min.css';
+import { CenterFocusStrong } from '@material-ui/icons';
 
 ReactGa.initialize(process.env.REACT_APP_GAID, {
   testMode: process.env.NODE_ENV != 'production',
@@ -19,7 +20,7 @@ ReactGa.initialize(process.env.REACT_APP_GAID, {
 const img = new Image();
 const backgroundImage = (img.src = '../img/landing-background.png');
 
-function WelcomeText() {
+function Hero() {
   return (
     <div>
       <div
@@ -27,19 +28,37 @@ function WelcomeText() {
           backgroundImage: `url(${backgroundImage})`,
           width: '99.6vw',
           height: '40vh',
-          position: 'relative',
-          left: '50%',
-          right: '50%',
-          top: '-100px',
-          marginLeft: '-50vw',
-          marginRight: '-50vw',
-          backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
       >
+        <div>
+          <div class="banner">
+            <div style={{ display: 'flex' }}>
+              <div class="logo-index">
+                <a href="/">
+                  <img
+                    src="/img/responsible-rai-logo.png"
+                    alt="Responsible rai Logo"
+                    class="logo"
+                  />
+                </a>
+              </div>
+              <div class="logo-index">
+                <img
+                  src="/img/anthem-logo.png"
+                  alt="Anthem logo"
+                  class="logo"
+                />
+              </div>
+            </div>
+            <div>
+              <Login />
+            </div>
+          </div>
+        </div>
         <div
           style={{
-            padding: '10em',
+            paddingTop: '5rem',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -50,6 +69,7 @@ function WelcomeText() {
           <div
             style={{
               width: '55%',
+              textAlign: 'center',
             }}
           >
             Welcome‌ ‌to‌ ‌the‌ ‌RAIL Certification Beta.‌ ‌This‌ ‌is‌ ‌a‌
@@ -69,9 +89,8 @@ function WelcomeText() {
 let queryParamsFromProps = (props) => {
   let queryString = props.location.search;
   var query = {};
-  var pairs = (queryString[0] === '?'
-    ? queryString.substr(1)
-    : queryString
+  var pairs = (
+    queryString[0] === '?' ? queryString.substr(1) : queryString
   ).split('&');
   for (var i = 0; i < pairs.length; i++) {
     var pair = pairs[i].split('=');
@@ -123,8 +142,7 @@ function HomePage(props) {
   }, [code]);
   return (
     <div>
-      <WelcomeText />
-      <Login />
+      <Hero />
       <UserSubmissions />
       <Box mt={5} />
     </div>

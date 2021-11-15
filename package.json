@@ -60,6 +60,7 @@
     "react-dom": "^16.13.1",
     "react-ga": "^3.2.1",
     "react-modal": "^3.11.2",
+    "react-pdf": "^5.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0",
     "react-test-renderer": "^16.14.0",

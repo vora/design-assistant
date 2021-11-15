@@ -64,8 +64,8 @@ class DesignAssistantSurvey extends Component {
       user_id: this?.props?.location?.state?.user_id,
       localResponses: JSON.parse(localStorage.getItem('localResponses')),
       currentPageIndex: null,
-      userQuestionAnswered: false,
-      userAnswer: null,
+      userQuestionAnswered: !!this?.props?.location?.state?.userType,
+      userAnswer: this?.props?.location?.state?.userType,
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -73,6 +73,7 @@ class DesignAssistantSurvey extends Component {
     this.handleCloseEmptyModal = this.handleCloseEmptyModal.bind(this);
     this.submitUserQuestion = this.submitUserQuestion.bind(this);
     this.updateUserAnswer = this.updateUserAnswer.bind(this);
+    this.showAlternateReport = this.showAlternateReport.bind(this);
   }
 
   // Request questions JSON from backend
@@ -88,7 +89,9 @@ class DesignAssistantSurvey extends Component {
     api.get('metadata').then((res) => {
       this.setState({ metadata: res.data });
     });
-    // this.getQuestions();
+    if (this?.props?.location?.state?.userType) {
+      this.getQuestions();
+    }
   }
 
   componentDidUpdate() {
@@ -98,13 +101,6 @@ class DesignAssistantSurvey extends Component {
         'localResponses',
         JSON.stringify(this.state.model?.data)
       );
-    }
-
-    // associate submissions with the user if they sign-in mid-survey
-    if (!this.state?.user_id) {
-      getLoggedInUser().then((user) => {
-        if (user) this.setState({ user_id: user._id });
-      });
     }
   }
 
@@ -120,7 +116,29 @@ class DesignAssistantSurvey extends Component {
   submitUserQuestion() {
     if (this.state.userAnswer) {
       this.getQuestions();
+      this.createSubmission();
       this.setState({ userQuestionAnswered: true });
+    }
+  }
+
+  async createSubmission() {
+    if (!this.state.submission_id) {
+      api
+        .post('submissions', {
+          userId: this.state?.user_id,
+          submission: {},
+          date: new Date(),
+          projectName: '',
+          completed: false,
+          domain: this.state.domainFilters,
+          region: this.state.regionFilters,
+          roles: this.state.roleFilters,
+          lifecycle: this.state.lifecycleFilters,
+        })
+        .then((res) => {
+          const { _id } = res.data;
+          this.setState({ submission_id: _id });
+        });
     }
   }
 
@@ -274,10 +292,15 @@ class DesignAssistantSurvey extends Component {
       });
   }
 
-  nextPath(path) {
+  nextPath(path, state) {
     this.props.history.push({
       pathname: path,
-      state: { questions: this.state.json, responses: this.state.model.data },
+      state: {
+        questions: this.state.json,
+        responses: this.state.model.data,
+        submissionId: this.state.submission_id,
+        ...state,
+      },
     });
   }
 
@@ -304,10 +327,10 @@ class DesignAssistantSurvey extends Component {
   resetSurvey() {
     // do we need to delete submission object here?
     // because we would need to call the database here
-    this.state.model.clear();
+    // this.state.model.clear();
     this.handleCloseModal();
     this.handleCloseEmptyModal();
-    window.location.pathname = '/';
+    this.props.history.push({ pathname: '/' });
   }
 
   prevPage() {
@@ -326,7 +349,7 @@ class DesignAssistantSurvey extends Component {
     // so just make an update call
 
     let title = this.state.json?.pages[0]?.elements?.find(
-      (q) => q?.title?.default === 'Title of project'
+      (q) => q?.title?.default === 'Project Name'
     );
     let dateTime = new Date();
     let projectName = this.state.model.data[title?.name] ?? '';
@@ -346,20 +369,42 @@ class DesignAssistantSurvey extends Component {
         region: this.state.regionFilters,
         roles: this.state.roleFilters,
         lifecycle: this.state.lifecycleFilters,
+        userType: this.state?.userAnswer,
       })
       .then((res) => {
         toast('Saving Responses', {
           toastId: 'saving',
         });
         let submission = res.data;
-        this.setState({ submission_id: submission._id });
+        if (!this.state.submission_id) {
+          this.setState({ submission_id: submission._id });
+        }
       });
+  }
+
+  /* determine if user should go to be shown the normal results
+  page or be shown the pilot repot based on lifecycle
+  */
+  showAlternateReport() {
+    const question = this.state.json?.pages[0]?.elements?.find(
+      (q) => q?.title?.default === 'Life Cycle Phase'
+    );
+    const answer = this.state.model.data[question?.name] ?? '';
+    const lifeCycle = question?.choices.find(
+      (choice) => choice.value === answer
+    )?.text?.default;
+
+    if (['Develop and Deploy', 'Operate', 'Decommission'].includes(lifeCycle)) {
+      return true;
+    }
+    return false;
   }
 
   finish() {
     this.save(true);
     this.state.model.doComplete();
-    this.nextPath('/Results/');
+    const alternateReport = this.showAlternateReport();
+    this.nextPath('/Results/', { alternateReport });
   }
 
   onComplete(survey, options) {
@@ -468,7 +513,10 @@ class DesignAssistantSurvey extends Component {
   render() {
     var number = 1;
     return this.state.model || !this.state.userQuestionAnswered ? (
-      <div>
+      <div className="surveyContainer">
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Login />
+        </div>
         {!this.state.userQuestionAnswered ? (
           <div style={{ padding: '40px' }}>
             <p style={{ paddingTop: '20px' }}>
@@ -675,9 +723,8 @@ class DesignAssistantSurvey extends Component {
                 </Card>
               </Accordion>
             </div>
-            <div className="container" style={{ paddingTop: '2em' }}></div>
             {this.state.mount ? (
-              <div className="container">
+              <div className="surveyQuestionContainer">
                 <Survey.Survey
                   model={this.state.model}
                   onComplete={this.onComplete}
@@ -795,7 +842,7 @@ class DesignAssistantSurvey extends Component {
             </Button>
           </ModalFooter>
         </Modal>
-        <Login />
+
         <ToastContainer
           position="bottom-right"
           autoClose={2500}

@@ -45,11 +45,11 @@ export default function AssessmentGrid(props) {
 
   const handleChipColor = (riskLevel) => {
     switch (riskLevel) {
-      case 'Low Risk':
+      case 'Low':
         return classes.lowRisk;
-      case 'Medium Risk':
+      case 'Medium':
         return classes.mediumRisk;
-      case 'High Risk':
+      case 'High':
         return classes.highRisk;
       default:
     }
@@ -78,15 +78,19 @@ export default function AssessmentGrid(props) {
               .map((submission, i) => (
                 <StyledTableRow stripedRows key={i}>
                   <StyledTableCell className={classes.anthemBlue}>
-                    {submission.projectName}
+                    {submission.projectName === ''
+                      ? submission._id
+                      : submission.projectName}
                   </StyledTableCell>
                   <StyledTableCell>{submission.users.username}</StyledTableCell>
 
                   <StyledTableCell>
-                    <Chip
-                      label="Low Risk"
-                      className={handleChipColor('Low Risk')}
-                    ></Chip>
+                    {submission.riskLevel && (
+                      <Chip
+                        label={submission.riskLevel}
+                        className={handleChipColor(submission.riskLevel)}
+                      ></Chip>
+                    )}
                   </StyledTableCell>
                   <StyledTableCell>
                     {submission.completed ? 'Completed' : 'In Progress'}
@@ -100,16 +104,16 @@ export default function AssessmentGrid(props) {
                     </CaptionTypography>
                   </StyledTableCell>
                   <StyledTableCell>
-                    {!submission.completed && (
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          width: '50%',
-                        }}
-                      >
-                        {collabRole !== 'legalCompliance' && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        width: '50%',
+                      }}
+                    >
+                      {collabRole !== 'legalCompliance' &&
+                        !submission.completed && (
                           <DeleteRounded
                             style={{ cursor: 'pointer' }}
                             onClick={() => {
@@ -117,14 +121,13 @@ export default function AssessmentGrid(props) {
                             }}
                           />
                         )}
-                        <AccountBox
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            handleResume(i);
-                          }}
-                        />
-                      </div>
-                    )}
+                      <AccountBox
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          handleResume(i);
+                        }}
+                      />
+                    </div>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
