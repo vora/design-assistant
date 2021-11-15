@@ -82,6 +82,7 @@ router.post('/update/:submissionId', async (req, res) => {
         domain: req.body.domain,
         region: req.body.region,
         roles: req.body.roles,
+        riskLevel: req.body.riskLevel,
       },
       { upsert: true, runValidators: true }
     );

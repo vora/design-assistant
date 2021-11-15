@@ -88,16 +88,17 @@ export default class Results extends Component {
 
   addRiskToSubmission(riskWeight) {
     const submissionRiskLevel = riskLevel[riskWeight];
-    console.log('riskWeight', riskWeight);
-    console.log(this.state.submissionId);
     if (this.state.submissionId) {
-      const submission = api.get(
-        `submissions/submission/${this.state?.submissionId}`
-      );
-      api.post('submissions/update/' + this.state?.submissionId, {
-        ...submission,
-        riskLevel: submissionRiskLevel,
-      });
+      api
+        .get(`submissions/submission/${this.state?.submissionId}`)
+        .then((res) => {
+          const submission = res.data.submission;
+          console.log(submission);
+          api.post('submissions/update/' + this.state?.submissionId, {
+            ...submission,
+            riskLevel: submissionRiskLevel,
+          });
+        });
     }
   }
 
