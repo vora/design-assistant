@@ -64,8 +64,8 @@ class DesignAssistantSurvey extends Component {
       user_id: this?.props?.location?.state?.user_id,
       localResponses: JSON.parse(localStorage.getItem('localResponses')),
       currentPageIndex: null,
-      userQuestionAnswered: false,
-      userAnswer: null,
+      userQuestionAnswered: !!this?.props?.location?.state?.userType,
+      userAnswer: this?.props?.location?.state?.userType,
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -88,7 +88,9 @@ class DesignAssistantSurvey extends Component {
     api.get('metadata').then((res) => {
       this.setState({ metadata: res.data });
     });
-    // this.getQuestions();
+    if (this?.props?.location?.state?.userType) {
+      this.getQuestions();
+    }
   }
 
   componentDidUpdate() {
@@ -98,13 +100,6 @@ class DesignAssistantSurvey extends Component {
         'localResponses',
         JSON.stringify(this.state.model?.data)
       );
-    }
-
-    // associate submissions with the user if they sign-in mid-survey
-    if (!this.state?.user_id) {
-      getLoggedInUser().then((user) => {
-        if (user) this.setState({ user_id: user._id });
-      });
     }
   }
 
@@ -304,10 +299,10 @@ class DesignAssistantSurvey extends Component {
   resetSurvey() {
     // do we need to delete submission object here?
     // because we would need to call the database here
-    this.state.model.clear();
+    // this.state.model.clear();
     this.handleCloseModal();
     this.handleCloseEmptyModal();
-    window.location.pathname = '/';
+    this.props.history.push({ pathname: '/' });
   }
 
   prevPage() {
@@ -346,6 +341,7 @@ class DesignAssistantSurvey extends Component {
         region: this.state.regionFilters,
         roles: this.state.roleFilters,
         lifecycle: this.state.lifecycleFilters,
+        userType: this.state?.userAnswer,
       })
       .then((res) => {
         toast('Saving Responses', {

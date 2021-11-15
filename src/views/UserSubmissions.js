@@ -111,6 +111,7 @@ class UserSubmissions extends Component {
             region: submission.region,
             lifecycle: submission.lifecycle,
           },
+          userType: submission.userType,
         },
       });
     }
