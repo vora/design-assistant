@@ -430,4 +430,5 @@ input[type='number'] {
 .surveyQuestionContainer {
   margin-left: 22em;
   margin-right: 10em;
+  padding-top: 2em;
 }

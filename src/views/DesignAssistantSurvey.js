@@ -707,7 +707,6 @@ class DesignAssistantSurvey extends Component {
                 </Card>
               </Accordion>
             </div>
-            <div className="container" style={{ paddingTop: '2em' }}></div>
             {this.state.mount ? (
               <div className="surveyQuestionContainer">
                 <Survey.Survey
