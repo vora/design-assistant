@@ -50,6 +50,7 @@ export default class Results extends Component {
     this.state = {
       Dimensions: [],
       submissionId: null,
+      alternateReport: false,
     };
     this.addRiskToSubmission = this.addRiskToSubmission.bind(this);
   }
@@ -60,6 +61,9 @@ export default class Results extends Component {
       this.setState({ Dimensions: res.data });
     });
     this.setState({ submissionId: this?.props?.location?.state?.submissionId });
+    this.setState({
+      alternateReport: this?.props?.location?.state?.alternateReport,
+    });
   }
 
   calculateRiskWeight(riskQuestions, results) {
@@ -247,117 +251,131 @@ export default class Results extends Component {
           style={{ paddingBottom: '1rem', paddingTop: '5rem' }}
         >
           <h1 className="section-header">Results</h1>
-          <button
-            id="exportButton"
-            type="button"
-            className="btn btn-save mr-2 btn btn-primary export-button-pdf"
-            onClick={() => {
-              ExportHandler();
-              exportReport(
-                projectTitle,
-                projectDescription,
-                projectIndustry,
-                projectRegion,
-                riskLevel[riskWeight ?? 1]
-              );
-            }}
-          >
-            Export as PDF
-          </button>
-          <button
-            id="exportButtonCSV"
-            type="button"
-            className="btn btn-save mr-2 btn btn-primary export-button-csv"
-            onClick={() => {
-              this.downloadCSV(surveyResults, questions);
-            }}
-          >
-            Export as CSV
-          </button>
-          <Tabs defaultActiveKey="score">
-            <Tab eventKey="score" title="Score">
-              <div className="table-responsive mt-3">
-                <Table
-                  id="score"
-                  bordered
-                  hover
-                  responsive
-                  className="report-card-table"
-                >
-                  <thead>
-                    <tr>
-                      <th className="score-card-dheader">Dimensions</th>
-                      <th className="score-card-headers">Needs to improve</th>
-                      <th className="score-card-headers">Acceptable</th>
-                      <th className="score-card-headers">Proficient</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.Dimensions.map((dimension, idx) => {
-                      if (dimension.label !== 'T' && dimension.label !== 'RK') {
-                        return (
-                          <DimensionScore
-                            key={idx}
-                            radarChartData={radarChartData}
-                            dimensionName={dimension.name}
-                            riskWeight={riskWeight}
-                            results={surveyResults}
-                            questions={allQuestions.filter(
-                              (x) => x.score?.dimension === dimension.label
-                            )}
-                          />
-                        );
-                      }
-                      return null;
-                    })}
-                  </tbody>
-                </Table>
-              </div>
-            </Tab>
-            <Tab eventKey="report-card" title="Report Card">
-              <Tab.Container
-                id="left-tabs-example"
-                defaultActiveKey={this.state?.Dimensions[2]?.label}
+          {this.state.alternateReport ? (
+            <iframe
+              src="https://drive.google.com/file/d/1f6RorHTlDbl309FbgJpvYJpivGUB-454/preview"
+              width="100%"
+              height="1000px"
+              allow="autoplay"
+            ></iframe>
+          ) : (
+            <div>
+              <button
+                id="exportButton"
+                type="button"
+                className="btn btn-save mr-2 btn btn-primary export-button-pdf"
+                onClick={() => {
+                  ExportHandler();
+                  exportReport(
+                    projectTitle,
+                    projectDescription,
+                    projectIndustry,
+                    projectRegion,
+                    riskLevel[riskWeight ?? 1]
+                  );
+                }}
               >
-                <Tab.Content>
-                  {this.state.Dimensions.map((dimension, idx) => {
-                    if (dimension.label !== 'T') {
-                      return (
-                        <Tab.Pane key={idx} eventKey={dimension.label}>
-                          <ReportCard
-                            dimension={dimension.label}
-                            results={surveyResults}
-                            questions={questions.filter(
-                              (x) => x.score?.dimension === dimension.label
-                            )}
-                          />
-                        </Tab.Pane>
-                      );
-                    }
-                    return null;
-                  })}
-                </Tab.Content>
-                <Nav
-                  variant="tabs"
-                  className="report-card-nav"
-                  defaultActiveKey="accountability"
-                >
-                  {this.state.Dimensions.map((dimension, idx) => {
-                    if (dimension.label !== 'T') {
-                      return (
-                        <Nav.Item key={idx}>
-                          <Nav.Link eventKey={dimension.label}>
-                            {dimension.name}
-                          </Nav.Link>
-                        </Nav.Item>
-                      );
-                    }
-                    return null;
-                  })}
-                </Nav>
-              </Tab.Container>
-            </Tab>
-            {/* <Tab eventKey="ai-providers" title="Trusted AI Providers">
+                Export as PDF
+              </button>
+              <button
+                id="exportButtonCSV"
+                type="button"
+                className="btn btn-save mr-2 btn btn-primary export-button-csv"
+                onClick={() => {
+                  this.downloadCSV(surveyResults, questions);
+                }}
+              >
+                Export as CSV
+              </button>
+              <Tabs defaultActiveKey="score">
+                <Tab eventKey="score" title="Score">
+                  <div className="table-responsive mt-3">
+                    <Table
+                      id="score"
+                      bordered
+                      hover
+                      responsive
+                      className="report-card-table"
+                    >
+                      <thead>
+                        <tr>
+                          <th className="score-card-dheader">Dimensions</th>
+                          <th className="score-card-headers">
+                            Needs to improve
+                          </th>
+                          <th className="score-card-headers">Acceptable</th>
+                          <th className="score-card-headers">Proficient</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.Dimensions.map((dimension, idx) => {
+                          if (
+                            dimension.label !== 'T' &&
+                            dimension.label !== 'RK'
+                          ) {
+                            return (
+                              <DimensionScore
+                                key={idx}
+                                radarChartData={radarChartData}
+                                dimensionName={dimension.name}
+                                riskWeight={riskWeight}
+                                results={surveyResults}
+                                questions={allQuestions.filter(
+                                  (x) => x.score?.dimension === dimension.label
+                                )}
+                              />
+                            );
+                          }
+                          return null;
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
+                </Tab>
+                <Tab eventKey="report-card" title="Report Card">
+                  <Tab.Container
+                    id="left-tabs-example"
+                    defaultActiveKey={this.state?.Dimensions[2]?.label}
+                  >
+                    <Tab.Content>
+                      {this.state.Dimensions.map((dimension, idx) => {
+                        if (dimension.label !== 'T') {
+                          return (
+                            <Tab.Pane key={idx} eventKey={dimension.label}>
+                              <ReportCard
+                                dimension={dimension.label}
+                                results={surveyResults}
+                                questions={questions.filter(
+                                  (x) => x.score?.dimension === dimension.label
+                                )}
+                              />
+                            </Tab.Pane>
+                          );
+                        }
+                        return null;
+                      })}
+                    </Tab.Content>
+                    <Nav
+                      variant="tabs"
+                      className="report-card-nav"
+                      defaultActiveKey="accountability"
+                    >
+                      {this.state.Dimensions.map((dimension, idx) => {
+                        if (dimension.label !== 'T') {
+                          return (
+                            <Nav.Item key={idx}>
+                              <Nav.Link eventKey={dimension.label}>
+                                {dimension.name}
+                              </Nav.Link>
+                            </Nav.Item>
+                          );
+                        }
+                        return null;
+                      })}
+                    </Nav>
+                  </Tab.Container>
+                </Tab>
+                {/* <Tab eventKey="ai-providers" title="Trusted AI Providers">
               <Tab.Container
                 id="left-tabs-example"
                 defaultActiveKey={this.state.Dimensions[0].label}
@@ -365,15 +383,17 @@ export default class Results extends Component {
                 <TrustedAIProviders />
               </Tab.Container>
             </Tab> */}
-            <Tab eventKey="ai-resources" title="Trusted AI Resources">
-              <Tab.Container
-                id="left-tabs-example"
-                defaultActiveKey={this.state.Dimensions[0].label}
-              >
-                <TrustedAIResources />
-              </Tab.Container>
-            </Tab>
-          </Tabs>
+                <Tab eventKey="ai-resources" title="Trusted AI Resources">
+                  <Tab.Container
+                    id="left-tabs-example"
+                    defaultActiveKey={this.state.Dimensions[0].label}
+                  >
+                    <TrustedAIResources />
+                  </Tab.Container>
+                </Tab>
+              </Tabs>
+            </div>
+          )}
           <div
             className="dimension-chart"
             style={{ marginBottom: '80px', marginTop: '40px' }}
