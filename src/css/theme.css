@@ -20,6 +20,8 @@ html {
 }
 .banner {
   padding-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .banner .logo {

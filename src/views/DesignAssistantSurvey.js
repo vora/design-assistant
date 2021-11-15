@@ -524,6 +524,9 @@ class DesignAssistantSurvey extends Component {
     var number = 1;
     return this.state.model || !this.state.userQuestionAnswered ? (
       <div className="surveyContainer">
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Login />
+        </div>
         {!this.state.userQuestionAnswered ? (
           <div style={{ padding: '40px' }}>
             <p style={{ paddingTop: '20px' }}>
@@ -849,7 +852,7 @@ class DesignAssistantSurvey extends Component {
             </Button>
           </ModalFooter>
         </Modal>
-        <Login />
+
         <ToastContainer
           position="bottom-right"
           autoClose={2500}
