@@ -112,14 +112,15 @@ export default function AssessmentGrid(props) {
                         width: '50%',
                       }}
                     >
-                      {collabRole !== 'legalCompliance' && (
-                        <DeleteRounded
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            handleDelete();
-                          }}
-                        />
-                      )}
+                      {collabRole !== 'legalCompliance' &&
+                        !submission.completed && (
+                          <DeleteRounded
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              handleDelete();
+                            }}
+                          />
+                        )}
                       <AccountBox
                         style={{ cursor: 'pointer' }}
                         onClick={() => {
