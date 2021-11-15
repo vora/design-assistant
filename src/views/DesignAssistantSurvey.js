@@ -299,10 +299,10 @@ class DesignAssistantSurvey extends Component {
   resetSurvey() {
     // do we need to delete submission object here?
     // because we would need to call the database here
-    this.state.model.clear();
+    // this.state.model.clear();
     this.handleCloseModal();
     this.handleCloseEmptyModal();
-    window.location.pathname = '/';
+    this.props.history.push({ pathname: '/' });
   }
 
   prevPage() {
