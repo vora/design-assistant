@@ -64,7 +64,7 @@ function Hero() {
             alignItems: 'center',
           }}
         >
-          <h1>RAI Assessment</h1>
+          <h1>RAI Design Assessment</h1>
           <Box mt={2} />
           <div
             style={{
