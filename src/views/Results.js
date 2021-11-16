@@ -300,11 +300,9 @@ export default class Results extends Component {
                       <thead>
                         <tr>
                           <th className="score-card-dheader">Dimensions</th>
-                          <th className="score-card-headers">
-                            Needs to improve
-                          </th>
-                          <th className="score-card-headers">Acceptable</th>
-                          <th className="score-card-headers">Proficient</th>
+                          <th className="score-card-headers">Low</th>
+                          <th className="score-card-headers">Medium</th>
+                          <th className="score-card-headers">High</th>
                         </tr>
                       </thead>
                       <tbody>
