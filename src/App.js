@@ -44,11 +44,11 @@ function Hero() {
                 </a>
               </div>
               <div class="logo-index">
-                <img
+                {/* <img
                   src="/img/anthem-logo.png"
                   alt="Anthem logo"
                   class="logo"
-                />
+                /> */}
               </div>
             </div>
             <div>
@@ -89,8 +89,9 @@ function Hero() {
 let queryParamsFromProps = (props) => {
   let queryString = props.location.search;
   var query = {};
-  var pairs = (
-    queryString[0] === '?' ? queryString.substr(1) : queryString
+  var pairs = (queryString[0] === '?'
+    ? queryString.substr(1)
+    : queryString
   ).split('&');
   for (var i = 0; i < pairs.length; i++) {
     var pair = pairs[i].split('=');
